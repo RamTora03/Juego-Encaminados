@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Personajes - Encaminados Wiki</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'IBM Plex Mono', 'Courier New', monospace;
+			background:
+				radial-gradient(circle at top, rgba(88, 255, 154, 0.08), transparent 35%),
+				linear-gradient(180deg, #05070c 0%, #0b1018 45%, #070b11 100%);
+			color: #e8eadf;
+			line-height: 1.6;
+		}
+
+		header {
+			background: linear-gradient(135deg, #0f1722 0%, #111d2c 55%, #0b1018 100%);
+			border-bottom: 4px solid #58ff9a;
+			padding: 30px 20px;
+			text-align: center;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+		}
+
+		header h1 {
+			font-size: 2.5em;
+			color: #58ff9a;
+			font-family: 'Trebuchet MS', 'Arial Black', sans-serif;
+			letter-spacing: 0.06em;
+			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+			margin-bottom: 10px;
+		}
+
+		nav {
+			background: rgba(8, 12, 17, 0.92);
+			border-bottom: 2px solid #6fb7ff;
+			display: flex;
+			justify-content: center;
+			gap: 2px;
+			padding: 0;
+			flex-wrap: wrap;
+		}
+
+		nav a {
+			color: #d7dbc9;
+			text-decoration: none;
+			padding: 12px 20px;
+			border-right: 1px solid #243244;
+			transition: all 0.3s ease;
+		}
+
+		nav a:last-child {
+			border-right: none;
+		}
+
+		nav a:hover {
+			background: #58ff9a;
+			color: #04110b;
+			font-weight: bold;
+		}
+
+		main {
+			max-width: 1200px;
+			margin: 40px auto;
+			padding: 20px;
+		}
+
+		section {
+			background: linear-gradient(180deg, rgba(12, 18, 27, 0.96), rgba(9, 14, 20, 0.96));
+			border: 1px solid #243244;
+			border-left: 4px solid #6fb7ff;
+			padding: 30px;
+			margin-bottom: 30px;
+			border-radius: 2px;
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+		}
+
+		h2 {
+			color: #58ff9a;
+			font-size: 1.8em;
+			margin-bottom: 20px;
+			text-transform: uppercase;
+			border-bottom: 2px solid rgba(111, 183, 255, 0.65);
+			padding-bottom: 10px;
+			font-family: 'Trebuchet MS', 'Arial Black', sans-serif;
+		}
+
+		h3 {
+			color: #cfd8c3;
+			font-size: 1.3em;
+			margin: 20px 0 15px;
+		}
+
+		/* ALEJO - PROTAGONIST */
+		.protagonist-card {
+			background: linear-gradient(135deg, rgba(14, 24, 36, 0.95) 0%, rgba(9, 14, 20, 0.98) 100%);
+			border: 3px solid #58ff9a;
+			border-radius: 4px;
+			padding: 30px;
+			margin: 20px 0;
+			box-shadow: 0 0 30px rgba(88, 255, 154, 0.18);
+		}
+
+		.protagonist-card h3 {
+			color: #58ff9a;
+			font-size: 1.5em;
+			margin-top: 0;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.protagonist-info {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+			gap: 15px;
+			margin: 20px 0;
+		}
+
+		.info-block {
+			background: rgba(8, 12, 17, 0.8);
+			border: 1px solid #243244;
+			padding: 12px;
+			border-radius: 3px;
+		}
+
+		.info-block strong {
+			color: #6fb7ff;
+			display: block;
+			margin-bottom: 5px;
+			font-size: 0.9em;
+			text-transform: uppercase;
+		}
+
+		.info-block span {
+			color: #d7dbc9;
+		}
+
+		.description-box {
+			background: rgba(8, 12, 17, 0.72);
+			border-left: 4px solid #58ff9a;
+			padding: 15px;
+			margin: 15px 0;
+			border-radius: 3px;
+			color: #c8cfbf;
+			font-style: italic;
+		}
+
+		.list-section {
+			background: rgba(8, 12, 17, 0.68);
+			padding: 15px;
+			margin: 12px 0;
+			border-radius: 3px;
+			border-left: 3px solid #6fb7ff;
+		}
+
+		.list-section h4 {
+			color: #6fb7ff;
+			margin-bottom: 10px;
+		}
+
+		.list-section ul {
+			margin-left: 20px;
+		}
+
+		.list-section li {
+			margin: 5px 0;
+			color: #c8cfbf;
+		}
+
+		.appearance-traits {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+			gap: 10px;
+			margin: 15px 0;
+		}
+
+		.trait {
+			background: rgba(88, 255, 154, 0.08);
+			border: 1px solid #58ff9a;
+			padding: 10px;
+			border-radius: 3px;
+			color: #e8eadf;
+			text-align: center;
+		}
+
+		.npc-card {
+			background: linear-gradient(180deg, #111923 0%, #0b1018 100%);
+			border: 1px solid #263445;
+			border-left: 4px solid #58ff9a;
+			padding: 20px;
+			margin: 20px 0;
+			border-radius: 2px;
+		}
+
+		.npc-card h3 {
+			color: #6fb7ff;
+			margin: 0 0 10px;
+		}
+
+		.npc-info {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+			gap: 15px;
+			margin: 15px 0;
+		}
+
+		.case-detail {
+			background: #0c121a;
+			border-left: 3px solid #6fb7ff;
+			padding: 15px;
+			margin: 12px 0;
+			border-radius: 3px;
+		}
+
+		.option {
+			background: #111b28;
+			border: 1px solid #243244;
+			padding: 10px;
+			margin: 8px 0;
+			border-radius: 3px;
+			border-left: 3px solid #22c55e;
+		}
+
+		.option-neg {
+			border-left-color: #ef4444;
+		}
+
+		.effect {
+			color: #cbd5e1;
+			font-size: 0.9em;
+			margin: 5px 0 0;
+		}
+
+		.effect .positive {
+			color: #58ff9a;
+		}
+
+		.effect .negative {
+			color: #ff6b72;
+		}
+
+		footer {
+			background: #080c12;
+			border-top: 2px solid #6fb7ff;
+			text-align: center;
+			padding: 20px;
+			color: #9ba3ad;
+			margin-top: 40px;
+		}
+
+		footer a {
+			color: #58ff9a;
+			text-decoration: none;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<h1>👤 PERSONAJES</h1>
+		<p>NPCs y sus historias en el Metro</p>
+	</header>
+
+	<nav>
+		<a href="index.html">INICIO</a>
+		<a href="overview.html">RESUMEN</a>
+		<a href="characters.html">PERSONAJES</a>
+		<a href="stations.html">ESTACIONES</a>
+		<a href="events.html">EVENTOS</a>
+		<a href="mechanics.html">MECÁNICAS</a>
+		<a href="lore.html">LORE</a>
+	</nav>
+
+	<main>
+		<!-- ALEJO - PROTAGONISTA -->
+		<section>
+			<h2>👻 PROTAGONISTA</h2>
+
+			<div class="protagonist-card">
+				<h3>👻 ALEJO (Ugalde Pérez Alejandro)</h3>
+
+				<div class="protagonist-info">
+					<div class="info-block">
+						<strong>Alias</strong>
+						<span>Alejo</span>
+					</div>
+					<div class="info-block">
+						<strong>Edad</strong>
+						<span>21 años</span>
+					</div>
+					<div class="info-block">
+						<strong>Ocupación</strong>
+						<span>Estudiante de arquitectura</span>
+					</div>
+					<div class="info-block">
+						<strong>Lugar de origen</strong>
+						<span>Estado de México</span>
+					</div>
+				</div>
+
+				<div class="info-block" style="grid-column: 1 / -1; background: #1a1f3a; border-color: #60a5fa;">
+					<strong style="color: #60a5fa;">Estado actual</strong>
+					<span style="color: #ef4444; font-weight: bold;">En coma / Alma atrapada dentro del sistema del metro</span>
+				</div>
+
+				<div class="description-box">
+					Alejo es un estudiante agotado por la rutina de traslado diaria hacia la Ciudad de México. Aunque siempre soñó con estudiar en la capital y convertirse en un arquitecto reconocido, la presión económica, el cansancio constante y el desgaste emocional provocado por la ciudad comenzaron a consumirlo lentamente.
+				</div>
+
+				<div class="description-box">
+					Después de un incidente en la estación Universidad, Alejo cae a las vías del metro. Su cuerpo sobrevive y permanece en coma dentro de un hospital, pero su conciencia queda atrapada dentro del sistema de transporte. Ahora recorre las líneas como un espíritu invisible para la mayoría de los usuarios.
+				</div>
+
+				<div class="list-section">
+					<h4>🎯 Motivaciones</h4>
+					<ul>
+						<li>Regresar a su cuerpo</li>
+						<li>Comprender qué lo llevó al límite</li>
+						<li>Ayudar a que el sistema vuelva a funcionar correctamente</li>
+						<li>Evitar que otras personas terminen como él</li>
+					</ul>
+				</div>
+
+				<div class="list-section">
+					<h4>👁️ Apariencia</h4>
+					<div class="appearance-traits">
+						<div class="trait">Sudadera oscura</div>
+						<div class="trait">Mochila desgastada</div>
+						<div class="trait">Ojeras pronunciadas</div>
+						<div class="trait">Expresión cansada</div>
+						<div class="trait">Forma fantasmal azulada</div>
+						<div class="trait">Pequeños glitches</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- EVENTO ESPECIAL: LA MOCHILA + NPCs NARRATIVOS -->
+		<section>
+			<h2>🎒 EVENTO ESPECIAL: NPCs NARRATIVOS</h2>
+			<p>Los protagonistas y observadores clave que dan forma al mundo del metro y reaccionan al incidente de la mochila abandonada en la estación Universidad.</p>
+
+			<div style="background: rgba(30, 100, 50, 0.1); border: 2px solid #22c55e; border-radius: 5px; padding: 20px; margin: 15px 0;">
+				<h3 style="color: #22c55e;">🎒 Tipo de Incidente: Tensión</h3>
+				<p><strong>Riesgo:</strong> Moderado</p>
+				<p style="margin-top: 10px; color: #b0b0b0;"><strong>Descripción:</strong> Una mochila es reportada cerca del andén. Aunque parece un objeto cotidiano, los usuarios comienzan a ponerse nerviosos. La tensión provoca congestión, acumulación de personas, retrasos y desorden en el flujo.</p>
+				<p style="margin-top: 10px; color: #b0b0b0;"><strong>Objetivo:</strong> Mantener la armonía y evitar el colapso de la estación.</p>
+			</div>
+
+			<div class="npc-card">
+				<h3>👷 Rogelio Vargas</h3>
+				<div class="npc-info">
+					<div class="info-block">
+						<strong>Edad</strong>
+						<span>46 años</span>
+					</div>
+					<div class="info-block">
+						<strong>Ocupación</strong>
+						<span>Supervisor de andenes</span>
+					</div>
+					<div class="info-block">
+						<strong>Posición</strong>
+						<span>x: 468, y: 197</span>
+					</div>
+				</div>
+
+				<div class="description-box">
+					Rogelio lleva más de veinte años trabajando dentro del metro. Entró joven pensando que sería un trabajo temporal, pero el tiempo pasó entre túneles, altavoces y retrasos constantes.
+				</div>
+
+				<div class="description-box">
+					Conoce perfectamente los sonidos del sistema: cuándo un tren viene demasiado rápido, cuándo unas puertas van a fallar y cuándo una estación está a punto de colapsar emocionalmente.
+				</div>
+
+				<div class="case-detail">
+					<strong>Diálogo:</strong> <em>"La gente cree que el metro solo transporta personas… pero también carga todo lo que sienten."</em>
+				</div>
+
+				<div class="list-section">
+					<h4>💭 Rol narrativo</h4>
+					<ul>
+						<li>Ha presenciado múltiples incidentes graves</li>
+						<li>Cree que el metro "absorbe" emociones</li>
+						<li>Ya no distingue el ruido del silencio</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="npc-card">
+				<h3>� Mariana Salcedo</h3>
+				<div class="npc-info">
+					<div class="info-block">
+						<strong>Edad</strong>
+						<span>20 años</span>
+					</div>
+					<div class="info-block">
+						<strong>Carrera</strong>
+						<span>Diseño y Comunicación Visual</span>
+					</div>
+					<div class="info-block">
+						<strong>Posición</strong>
+						<span>x: 642, y: 197</span>
+					</div>
+				</div>
+
+				<div class="description-box">
+					Mariana vive en la periferia de la ciudad y pasa aproximadamente cuatro horas diarias en transporte público. La mayor parte de su vida ocurre dentro del metro.
+				</div>
+
+				<div class="description-box">
+					Tiene el hábito de observar discretamente a otros usuarios e imaginar sus historias. Después del incidente empezó a reconocer la figura fantasmal de Alejo cerca de los andenes.
+				</div>
+
+				<div class="case-detail">
+					<strong>Diálogo:</strong> <em>"A veces siento que todos aquí estamos sobreviviendo, no viviendo."</em>
+				</div>
+
+				<div class="list-section">
+					<h4>💭 Curiosidades</h4>
+					<ul>
+						<li>Hace trayectos de más de dos horas</li>
+						<li>Usa el metro todos los días</li>
+						<li>Siente ansiedad cuando los andenes están llenos</li>
+					</ul>
+				</div>
+			</div>
+
+
+
+			<div class="npc-card">
+				<h3>🎒 Mochila abandonada</h3>
+				<div class="npc-info">
+					<div class="info-block">
+						<strong>Estado</strong>
+						<span>Objeto de incidente</span>
+					</div>
+					<div class="info-block">
+						<strong>Riesgo</strong>
+						<span>Tensión creciente</span>
+					</div>
+					<div class="info-block">
+						<strong>Ubicación</strong>
+						<span>Borde del andén</span>
+					</div>
+				</div>
+
+				<div class="description-box">
+					Una mochila oscura aparece sola cerca del borde del andén. Está desgastada, tiene llaveros escolares y un cuaderno parcialmente visible, pero nadie se atreve a acercarse demasiado.
+				</div>
+
+				<div class="description-box">
+					Mientras más tiempo permanece en el andén, aumenta la tensión, el flujo se vuelve inestable y los usuarios comienzan a actuar de manera más agresiva o nerviosa.
+				</div>
+
+				<div class="case-detail">
+					<strong>Registro del sistema:</strong> <em>"Objeto sin identificar detectado en zona amarilla. Usuarios muestran alteraciones emocionales."</em>
+				</div>
+			</div>
+		</section>
+
+		<!-- MECÁNICA DE INTERACCIÓN -->
+		<section>
+			<h2>🎯 Mecánica de Interacción</h2>
+			<ul style="margin-left: 20px;">
+				<li><strong>Acercamiento:</strong> Acércate a un NPC (distancia &lt; 56 píxeles) para que aparezca el prompt "PRESIONA E".</li>
+				<li><strong>Interacción:</strong> Al presionar E, el caso del NPC se abre en el panel derecho.</li>
+				<li><strong>Resolución:</strong> Elige la opción (A o B) para resolver el caso y obtener recompensas/penalizaciones.</li>
+				<li><strong>Efectos:</strong> Los efectos de cada opción afectan las estadísticas del juego inmediatamente.</li>
+				<li><strong>Evento especial:</strong> Para el evento de mochila en UNIVERSIDAD, puedes hablar con los NPCs para obtener su perspectiva sobre la situación.</li>
+			</ul>
+		</section>
+	</main>
+
+	<footer>
+		<p>&copy; 2026 Encaminados. Documentación del universo game.</p>
+		<p><small><a href="index.html">← Volver al inicio</a></small></p>
+	</footer>
+</body>
+</html>
