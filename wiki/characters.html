@@ -190,6 +190,22 @@
 			text-align: center;
 		}
 
+		.character-media {
+			display: flex;
+			justify-content: center;
+			margin: 12px 0 18px;
+		}
+
+		.character-media img {
+			width: min(280px, 100%);
+			height: auto;
+			border: 2px solid #6fb7ff;
+			background: rgba(7, 11, 17, 0.85);
+			border-radius: 3px;
+			padding: 6px;
+			box-shadow: 0 0 18px rgba(111, 183, 255, 0.2);
+		}
+
 		.npc-card {
 			background: linear-gradient(180deg, #111923 0%, #0b1018 100%);
 			border: 1px solid #263445;
@@ -284,6 +300,9 @@
 
 			<div class="protagonist-card">
 				<h3>👻 ALEJO (Ugalde Pérez Alejandro)</h3>
+				<div class="character-media">
+					<img src="../ghost_front.png" alt="Sprite de Alejo" loading="lazy" />
+				</div>
 
 				<div class="protagonist-info">
 					<div class="info-block">
@@ -355,6 +374,9 @@
 
 			<div class="npc-card">
 				<h3>👷 Rogelio Vargas</h3>
+				<div class="character-media">
+					<img src="../trabajador_metro.png" alt="Sprite de Rogelio Vargas" loading="lazy" />
+				</div>
 				<div class="npc-info">
 					<div class="info-block">
 						<strong>Edad</strong>
@@ -393,7 +415,10 @@
 			</div>
 
 			<div class="npc-card">
-				<h3>� Mariana Salcedo</h3>
+				<h3>👩 Mariana Salcedo</h3>
+				<div class="character-media">
+					<img src="../estudiante_universidad.png" alt="Sprite de Mariana Salcedo" loading="lazy" />
+				</div>
 				<div class="npc-info">
 					<div class="info-block">
 						<strong>Edad</strong>
@@ -435,6 +460,9 @@
 
 			<div class="npc-card">
 				<h3>🎒 Mochila abandonada</h3>
+				<div class="character-media">
+					<img src="../mochila_abandonada.png" alt="Mochila abandonada en el andén" loading="lazy" />
+				</div>
 				<div class="npc-info">
 					<div class="info-block">
 						<strong>Estado</strong>
