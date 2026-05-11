@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Lore y Misterios - Encaminados Wiki</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'IBM Plex Mono', 'Courier New', monospace;
+			background:
+				radial-gradient(circle at top, rgba(88, 255, 154, 0.08), transparent 35%),
+				linear-gradient(180deg, #05070c 0%, #0b1018 45%, #070b11 100%);
+			color: #e8eadf;
+			line-height: 1.6;
+		}
+
+		header {
+			background: linear-gradient(135deg, #0f1722 0%, #111d2c 55%, #0b1018 100%);
+			border-bottom: 4px solid #58ff9a;
+			padding: 30px 20px;
+			text-align: center;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+		}
+
+		header h1 {
+			font-size: 2.5em;
+			color: #58ff9a;
+			font-family: 'Trebuchet MS', 'Arial Black', sans-serif;
+			letter-spacing: 0.06em;
+			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+			margin-bottom: 10px;
+		}
+
+		nav {
+			background: rgba(8, 12, 17, 0.92);
+			border-bottom: 2px solid #6fb7ff;
+			display: flex;
+			justify-content: center;
+			gap: 2px;
+			padding: 0;
+			flex-wrap: wrap;
+		}
+
+		nav a {
+			color: #d7dbc9;
+			text-decoration: none;
+			padding: 12px 20px;
+			border-right: 1px solid #243244;
+			transition: all 0.3s ease;
+		}
+
+		nav a:hover {
+			background: #58ff9a;
+			color: #04110b;
+		}
+
+		nav a:last-child {
+			border-right: none;
+		}
+
+		main {
+			max-width: 1200px;
+			margin: 30px auto;
+			padding: 0 20px;
+		}
+
+		.section {
+			background: rgba(8, 12, 17, 0.82);
+			border: 1px solid #243244;
+			border-left: 4px solid #58ff9a;
+			padding: 25px;
+			margin-bottom: 25px;
+			border-radius: 2px;
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+		}
+
+		.section h2 {
+			font-size: 1.8em;
+			color: #58ff9a;
+			margin-bottom: 15px;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			font-family: 'Trebuchet MS', 'Arial Black', sans-serif;
+		}
+
+		.section h3 {
+			font-size: 1.3em;
+			color: #6fb7ff;
+			margin-top: 20px;
+			margin-bottom: 10px;
+		}
+
+		.record {
+			background: rgba(8, 12, 17, 0.72);
+			border: 1px solid #243244;
+			border-left: 3px solid #6fb7ff;
+			padding: 15px;
+			margin: 10px 0;
+			border-radius: 2px;
+			font-style: italic;
+			color: #c8cfbf;
+		}
+
+		.record strong {
+			color: #58ff9a;
+		}
+
+		.rumor-item {
+			background: rgba(8, 12, 17, 0.66);
+			padding: 12px;
+			margin: 10px 0;
+			border-left: 3px solid #58ff9a;
+			border-radius: 2px;
+		}
+
+		.rumor-item span {
+			color: #6fb7ff;
+			font-weight: bold;
+		}
+
+		.theory {
+			background: rgba(14, 24, 36, 0.85);
+			padding: 20px;
+			margin: 15px 0;
+			border-radius: 2px;
+			border: 1px dashed #6fb7ff;
+		}
+
+		.theory h4 {
+			color: #58ff9a;
+			margin-bottom: 10px;
+			font-size: 1.1em;
+		}
+
+		.anomaly-list {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+			gap: 15px;
+			margin: 15px 0;
+		}
+
+		.anomaly-card {
+			background: rgba(8, 12, 17, 0.75);
+			border: 1px solid #243244;
+			border-top: 3px solid #58ff9a;
+			padding: 15px;
+			border-radius: 2px;
+			text-align: center;
+		}
+
+		.anomaly-card strong {
+			color: #6fb7ff;
+			display: block;
+			margin-bottom: 8px;
+		}
+
+		.anomaly-card p {
+			font-size: 0.9em;
+			color: #c8cfbf;
+		}
+
+		footer {
+			background: #080c12;
+			border-top: 2px solid #6fb7ff;
+			text-align: center;
+			padding: 20px;
+			margin-top: 40px;
+			color: #9ba3ad;
+			font-size: 0.9em;
+		}
+
+		@media (max-width: 768px) {
+			header h1 {
+				font-size: 1.8em;
+			}
+
+			nav {
+				flex-direction: column;
+			}
+
+			nav a {
+				border-right: none;
+				border-bottom: 1px solid #333;
+			}
+
+			nav a:last-child {
+				border-bottom: none;
+			}
+
+			.section {
+				padding: 15px;
+			}
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<h1>🚇 LORE Y MISTERIOS</h1>
+		<p>El universo oculto de Encaminados</p>
+	</header>
+
+	<nav>
+		<a href="index.html">INICIO</a>
+		<a href="overview.html">RESUMEN</a>
+		<a href="characters.html">PERSONAJES</a>
+		<a href="stations.html">ESTACIONES</a>
+		<a href="events.html">EVENTOS</a>
+		<a href="mechanics.html">MECÁNICAS</a>
+		<a href="lore.html">LORE</a>
+	</nav>
+
+	<main>
+		<!-- ARCHIVOS PERDIDOS -->
+		<section class="section">
+			<h2>📼 ARCHIVOS PERDIDOS</h2>
+			<p>Registros del sistema encontrados. El acceso a información completa ha sido restringido o eliminado.</p>
+
+			<div class="record">
+				<strong>Registro #042</strong><br>
+				"Usuarios reportan escuchar voces provenientes de los túneles después del cierre del servicio. Las grabaciones de audio no capturan ningún sonido, pero múltiples testigos coinciden en sus descripciones."
+			</div>
+
+			<div class="record">
+				<strong>Registro #087</strong><br>
+				"Cámaras muestran siluetas moviéndose en estaciones vacías durante la madrugada. Análisis de video no detecta objetos presentes físicamente. Posible fallo en sistemas de grabación."
+			</div>
+
+			<div class="record">
+				<strong>Registro #103</strong><br>
+				"El incidente en Universidad no pudo ser eliminado completamente de redes sociales. Contenido replicándose más rápido de lo que puede ser removido. Recomendación: monitoreo continuo de plataformas digitales."
+			</div>
+		</section>
+
+		<!-- REDES Y RUMORES -->
+		<section class="section">
+			<h2>📱 REDES Y RUMORES</h2>
+			<p>Fragmentos de conversaciones digitales detectadas en redes sociales y grupos cerrados.</p>
+
+			<h3>Publicaciones eliminadas</h3>
+			<div class="rumor-item">
+				<span>[ELIMINADO]</span><br>
+				"Otra vez pasó algo en Universidad… no es la primera vez que el sistema falla así."
+			</div>
+
+			<h3>Comentarios archivados</h3>
+			<div class="rumor-item">
+				<span>[ARCHIVADO]</span><br>
+				"La gente grabó antes de ayudar. ¿Qué esperaban documentar?"
+			</div>
+
+			<h3>Hashtags detectados</h3>
+			<div class="rumor-item">
+				#Universidad
+			</div>
+			<div class="rumor-item">
+				#MetroCDMX
+			</div>
+			<div class="rumor-item">
+				#RetrasoEnLinea3
+			</div>
+			<div class="rumor-item">
+				#NoEsNormal
+			</div>
+		</section>
+
+		<!-- ESTACIONES CON ACTIVIDAD ANÓMALA -->
+		<section class="section">
+			<h2>👻 ESTACIONES CON ACTIVIDAD ANÓMALA</h2>
+			<p>Reportes del sistema indican que algunas estaciones presentan fenómenos inexplicables, particularmente después de incidentes graves. Se ha detectado una concentración anómala de "ecos emocionales" en estos lugares.</p>
+
+			<div class="anomaly-list">
+				<div class="anomaly-card">
+					<strong>Universidad</strong>
+					<p>Punto de origen del incidente principal. Actividad más intensa durante horarios de cierre.</p>
+				</div>
+				<div class="anomaly-card">
+					<strong>Tacubaya</strong>
+					<p>Historial de accidentes. Trabajadores reportan sensación de peligro constante.</p>
+				</div>
+				<div class="anomaly-card">
+					<strong>Balderas</strong>
+					<p>Reportes paranormales. Usuarios afirman sentirse observados en pasillos vacíos.</p>
+				</div>
+				<div class="anomaly-card">
+					<strong>Pantitlán</strong>
+					<p>Corazón del sistema. Caos emocional acumulado durante años.</p>
+				</div>
+			</div>
+
+			<h3>Fenómenos registrados</h3>
+			<ul style="margin-left: 20px; color: #b0b0b0;">
+				<li>Sombras en túneles durante horarios de operación normal</li>
+				<li>Voces sin origen identificable</li>
+				<li>Interferencias en cámaras de vigilancia</li>
+				<li>Usuarios reportan ver figuras azules cerca de vías</li>
+				<li>Ecos emocionales intensificados después de eventos traumáticos</li>
+				<li>Sensación de presencia en estaciones cerradas</li>
+			</ul>
+		</section>
+
+		<!-- TEORÍAS -->
+		<section class="section">
+			<h2>❓ TEORÍAS Y ESPECULACIONES</h2>
+			<p>Hipótesis planteadas por trabajadores, usuarios y análisis del sistema.</p>
+
+			<div class="theory">
+				<h4>¿El metro recuerda?</h4>
+				<p>Algunos trabajadores con años de servicio creen que las emociones intensas permanecen atrapadas dentro de túneles y estaciones, formando una especie de "memoria emocional" del sistema. Según esta teoría, lugares con traumas acumulados generan fenómenos paranormales.</p>
+			</div>
+
+			<div class="theory">
+				<h4>¿Alejo sigue vivo?</h4>
+				<p>Aunque su cuerpo permanece en coma dentro del hospital, múltiples usuarios afirman haber visto una silueta azul observando desde los andenes. ¿Es un espíritu? ¿Un glitch del sistema? ¿Una manifestación de conciencia atrapada?</p>
+			</div>
+
+			<div class="theory">
+				<h4>¿Qué provoca el caos?</h4>
+				<p>Nadie sabe si el sistema colapsa por fallas técnicas inherentes… o por las emociones de quienes lo usan diariamente. ¿Es posible que las máquinas absorban el estrés colectivo de millones de personas?</p>
+			</div>
+
+			<div class="theory">
+				<h4>Conexión emocional del sistema</h4>
+				<p>El metro no funciona como un transporte ordinario. Parece estar conectado emocionalmente a sus usuarios. Mientras más agotadas, frustradas o desesperadas estén las personas, más caótico se vuelve el sistema. ¿Somos nosotros quienes generamos el caos, o el caos nos genera a nosotros?</p>
+			</div>
+		</section>
+
+		<!-- CONCEPTOS CLAVE -->
+		<section class="section">
+			<h2>🔑 CONCEPTOS DEL UNIVERSO</h2>
+
+			<h3>Armonía</h3>
+			<p>Nivel emocional colectivo dentro de las estaciones. Cuando la armonía es alta, el sistema funciona fluidamente. Cuando desciende, caos y malfuncionamientos aumentan.</p>
+
+			<h3>Saturación</h3>
+			<p>Cantidad excesiva de usuarios en una misma zona. No es solo sobre números; es la concentración de emociones negativas en un espacio limitado.</p>
+
+			<h3>Eco emocional</h3>
+			<p>Residuos emocionales que permanecen dentro del sistema después de eventos traumáticos. Son manifestaciones espectrales de dolor colectivo.</p>
+
+			<h3>Incidente</h3>
+			<p>Evento que altera el equilibrio del flujo dentro del metro. Puede ser técnico, emocional o ambos. Los incidentes generan ecos emocionales.</p>
+
+			<h3>La Mochila Azul</h3>
+			<p>Símbolo del caos. Representa el peso del estrés cotidiano y cómo objetos simples pueden desencadenar crisis colectivas.</p>
+		</section>
+	</main>
+
+	<footer>
+		<p>🚇 Encaminados Wiki | Información recopilada del sistema del Metro. Algunos datos fueron eliminados o archivados.</p>
+	</footer>
+</body>
+</html>

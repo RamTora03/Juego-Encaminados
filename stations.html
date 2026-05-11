@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Estaciones - Encaminados Wiki</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'IBM Plex Mono', 'Courier New', monospace;
+			background:
+				radial-gradient(circle at top, rgba(88, 255, 154, 0.08), transparent 35%),
+				linear-gradient(180deg, #05070c 0%, #0b1018 45%, #070b11 100%);
+			color: #e8eadf;
+			line-height: 1.6;
+		}
+
+		header {
+			background: linear-gradient(135deg, #0f1722 0%, #111d2c 55%, #0b1018 100%);
+			border-bottom: 4px solid #58ff9a;
+			padding: 30px 20px;
+			text-align: center;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+		}
+
+		header h1 {
+			font-size: 2.5em;
+			color: #58ff9a;
+			font-family: 'Trebuchet MS', 'Arial Black', sans-serif;
+			letter-spacing: 0.06em;
+			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+			margin-bottom: 10px;
+		}
+
+		nav {
+			background: rgba(8, 12, 17, 0.92);
+			border-bottom: 2px solid #6fb7ff;
+			display: flex;
+			justify-content: center;
+			gap: 2px;
+			padding: 0;
+			flex-wrap: wrap;
+		}
+
+		nav a {
+			color: #d7dbc9;
+			text-decoration: none;
+			padding: 12px 20px;
+			border-right: 1px solid #243244;
+			transition: all 0.3s ease;
+		}
+
+		nav a:last-child {
+			border-right: none;
+		}
+
+		nav a:hover {
+			background: #58ff9a;
+			color: #04110b;
+			font-weight: bold;
+		}
+
+		main {
+			max-width: 1200px;
+			margin: 40px auto;
+			padding: 20px;
+		}
+
+		section {
+			background: linear-gradient(180deg, rgba(12, 18, 27, 0.96), rgba(9, 14, 20, 0.96));
+			border: 1px solid #243244;
+			border-left: 4px solid #6fb7ff;
+			padding: 30px;
+			margin-bottom: 30px;
+			border-radius: 2px;
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+		}
+
+		h2 {
+			color: #58ff9a;
+			font-size: 1.8em;
+			margin-bottom: 20px;
+			text-transform: uppercase;
+			border-bottom: 2px solid rgba(111, 183, 255, 0.65);
+			padding-bottom: 10px;
+			font-family: 'Trebuchet MS', 'Arial Black', sans-serif;
+		}
+
+		h3 {
+			color: #cfd8c3;
+			font-size: 1.2em;
+			margin-top: 20px;
+			margin-bottom: 10px;
+		}
+
+		.station-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+			gap: 20px;
+			margin: 20px 0;
+		}
+
+		.station-card {
+			background: linear-gradient(135deg, #111b28 0%, #0b1119 100%);
+			border: 1px solid #243244;
+			border-left: 4px solid #58ff9a;
+			padding: 20px;
+			border-radius: 2px;
+		}
+
+		.station-card h3 {
+			color: #6fb7ff;
+			margin: 0 0 12px;
+			font-size: 1.3em;
+		}
+
+		.station-info {
+			display: grid;
+			gap: 8px;
+		}
+
+		.station-info div {
+			background: #0c121a;
+			border: 1px solid #243244;
+			padding: 8px;
+			border-radius: 3px;
+			font-size: 0.9em;
+		}
+
+		.station-info strong {
+			color: #58ff9a;
+			display: block;
+			margin-bottom: 3px;
+		}
+
+		.line-badge {
+			display: inline-block;
+			padding: 4px 10px;
+			border-radius: 3px;
+			font-weight: bold;
+			font-size: 0.85em;
+			margin-top: 8px;
+		}
+
+		.line-3 {
+			background: #58ff9a;
+			color: #04110b;
+		}
+
+		.line-9 {
+			background: #6fb7ff;
+			color: #04111d;
+		}
+
+		.line-12 {
+			background: #ffb86c;
+			color: #140c05;
+		}
+
+		.transfer {
+			background: #4b5563;
+			color: #e8eadf;
+		}
+
+		.state-badge {
+			display: inline-block;
+			padding: 6px 14px;
+			border-radius: 20px;
+			font-size: 0.85em;
+			font-weight: bold;
+			margin-bottom: 15px;
+		}
+
+		.state-saturated {
+			background: #ef4444;
+			color: white;
+		}
+
+		.state-unstable {
+			background: #ffb86c;
+			color: white;
+		}
+
+		.state-chaotic {
+			background: #cf5d21;
+			color: white;
+		}
+
+		.state-critical {
+			background: #6d28d9;
+			color: white;
+		}
+
+		.state-terminal {
+			background: #8b5cf6;
+			color: white;
+		}
+
+		.state-variable {
+			background: #0ea5e9;
+			color: white;
+		}
+
+		.station-info-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+			gap: 12px;
+			margin: 15px 0;
+		}
+
+		.info-item {
+			background: rgba(8, 12, 17, 0.72);
+			border: 1px solid #243244;
+			padding: 10px;
+			border-radius: 3px;
+		}
+
+		.info-item strong {
+			color: #6fb7ff;
+			display: block;
+			font-size: 0.85em;
+			margin-bottom: 3px;
+		}
+
+		.info-item span {
+			color: #cbd5e1;
+		}
+
+		.description-box {
+			background: #0f1620;
+			border: 1px solid #243244;
+			border-left: 4px solid #6fb7ff;
+			padding: 15px;
+			margin: 15px 0;
+			border-radius: 3px;
+			color: #d7dbc9;
+			font-size: 0.95em;
+			line-height: 1.7;
+		}
+
+		.sensation-section {
+			background: rgba(111, 183, 255, 0.06);
+			border: 1px solid #6fb7ff;
+			padding: 15px;
+			margin: 15px 0;
+			border-radius: 5px;
+		}
+
+		.sensation-section h4 {
+			color: #6fb7ff;
+			margin-bottom: 10px;
+		}
+
+		.sensation-list {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+			gap: 8px;
+		}
+
+		.sensation-item {
+			background: rgba(88, 255, 154, 0.08);
+			padding: 8px;
+			border-left: 2px solid #58ff9a;
+			font-size: 0.9em;
+		}
+
+		.incidents-section {
+			background: rgba(255, 107, 114, 0.05);
+			border: 1px solid #ff6b72;
+			padding: 15px;
+			margin: 15px 0;
+			border-radius: 5px;
+		}
+
+		.incidents-section h4 {
+			color: #ff6b72;
+			margin-bottom: 10px;
+		}
+
+		.incident-item {
+			background: rgba(255, 107, 114, 0.1);
+			padding: 8px;
+			margin: 5px 0;
+			border-left: 2px solid #ff6b72;
+			font-size: 0.9em;
+		}
+
+		.emotional-state {
+			background: linear-gradient(135deg, #0f1722, #111d2c);
+			border: 1px dashed #58ff9a;
+			padding: 12px;
+			margin: 15px 0;
+			border-radius: 5px;
+			text-align: center;
+			font-weight: bold;
+			color: #58ff9a;
+		}
+
+		.detailed-section {
+			background: rgba(8, 12, 17, 0.72);
+			border: 1px solid #243244;
+			border-left: 4px solid #58ff9a;
+			padding: 20px;
+			margin: 20px 0;
+			border-radius: 2px;
+		}
+
+		.detailed-section h3 {
+			color: #6fb7ff;
+			font-size: 1.4em;
+			margin-bottom: 15px;
+			margin-top: 0;
+		}
+
+		footer {
+			background: #080c12;
+			border-top: 2px solid #6fb7ff;
+			text-align: center;
+			padding: 20px;
+			color: #9ba3ad;
+			margin-top: 40px;
+		}
+
+		footer a {
+			color: #58ff9a;
+			text-decoration: none;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<h1>🚇 ESTACIONES</h1>
+		<p>Mapa completo del Metro — Líneas 3, 9 y 12</p>
+	</header>
+
+	<nav>
+		<a href="index.html">INICIO</a>
+		<a href="overview.html">RESUMEN</a>
+		<a href="characters.html">PERSONAJES</a>
+		<a href="stations.html">ESTACIONES</a>
+		<a href="events.html">EVENTOS</a>
+		<a href="mechanics.html">MECÁNICAS</a>
+		<a href="lore.html">LORE</a>
+	</nav>
+
+	<main>
+		<!-- VISTA RÁPIDA CON GRILLA -->
+		<section>
+			<h2>📍 VISTA RÁPIDA - MAPA DE ESTACIONES</h2>
+			<p>Grilla de todas las estaciones organizadas por línea.</p>
+
+			<h3 style="margin-top: 30px;">Línea 3 - Verde</h3>
+			<div class="station-grid">
+				<div class="station-card">
+					<h3>🚇 Indios Verdes</h3>
+					<div class="station-info">
+						<div><strong>Línea:</strong> 3</div>
+						<div><strong>Posición:</strong> (457, 147)</div>
+						<div><strong>Etiqueta:</strong> (470, 147)</div>
+					</div>
+					<div class="line-badge line-3">LÍNEA 3</div>
+				</div>
+
+				<div class="station-card">
+					<h3>🚇 Hidalgo</h3>
+					<div class="station-info">
+						<div><strong>Línea:</strong> 3</div>
+						<div><strong>Posición:</strong> (457, 187)</div>
+						<div><strong>Etiqueta:</strong> (470, 187)</div>
+					</div>
+					<div class="line-badge line-3">LÍNEA 3</div>
+				</div>
+
+				<div class="station-card">
+					<h3>🚇 Centro Médico</h3>
+					<div class="station-info">
+						<div><strong>Línea:</strong> 3-9 (Transbordo)</div>
+						<div><strong>Posición:</strong> (457, 237)</div>
+						<div><strong>Etiqueta:</strong> (470, 255)</div>
+					</div>
+					<div class="line-badge line-3">LÍNEA 3</div>
+					<div class="line-badge transfer">TRANSBORDO</div>
+				</div>
+
+				<div class="station-card">
+					<h3>🚇 Zapata</h3>
+					<div class="station-info">
+						<div><strong>Línea:</strong> 3-12 (Transbordo)</div>
+						<div><strong>Posición:</strong> (457, 302)</div>
+						<div><strong>Etiqueta:</strong> (470, 320)</div>
+					</div>
+					<div class="line-badge line-3">LÍNEA 3</div>
+					<div class="line-badge transfer">TRANSBORDO</div>
+				</div>
+
+				<div class="station-card">
+					<h3>🚇 Viveros de Coyoacán</h3>
+					<div class="station-info">
+						<div><strong>Línea:</strong> 3</div>
+						<div><strong>Posición:</strong> (457, 347)</div>
+						<div><strong>Etiqueta:</strong> (470, 347)</div>
+					</div>
+					<div class="line-badge line-3">LÍNEA 3</div>
+				</div>
+
+				<div class="station-card">
+					<h3>🚇 Universidad</h3>
+					<div class="station-info">
+						<div><strong>Línea:</strong> 3</div>
+						<div><strong>Posición:</strong> (457, 390)</div>
+						<div><strong>Etiqueta:</strong> (470, 390)</div>
+					</div>
+					<div class="line-badge line-3">LÍNEA 3</div>
+					<p style="margin-top: 10px; font-size: 0.85em; color: #fca311;">✨ Estación con escena especial</p>
+				</div>
+			</div>
+
+			<h3 style="margin-top: 30px;">Línea 9 - Naranja</h3>
+			<div class="station-grid">
+				<div class="station-card">
+					<h3>🚇 Pantitlán</h3>
+					<div class="station-info">
+						<div><strong>Línea:</strong> 9</div>
+						<div><strong>Posición:</strong> (315, 237)</div>
+						<div><strong>Etiqueta:</strong> (320, 255)</div>
+					</div>
+					<div class="line-badge line-9">LÍNEA 9</div>
+				</div>
+
+				<div class="station-card">
+					<h3>🚇 Chilpancingo</h3>
+					<div class="station-info">
+						<div><strong>Línea:</strong> 9</div>
+						<div><strong>Posición:</strong> (388, 237)</div>
+						<div><strong>Etiqueta:</strong> (390, 255)</div>
+					</div>
+					<div class="line-badge line-9">LÍNEA 9</div>
+				</div>
+
+				<div class="station-card">
+					<h3>🚇 Tacubaya</h3>
+					<div class="station-info">
+						<div><strong>Línea:</strong> 9</div>
+						<div><strong>Posición:</strong> (569, 237)</div>
+						<div><strong>Etiqueta:</strong> (570, 255)</div>
+					</div>
+					<div class="line-badge line-9">LÍNEA 9</div>
+				</div>
+			</div>
+
+			<h3 style="margin-top: 30px;">Línea 12 - Amarilla</h3>
+			<div class="station-grid">
+				<div class="station-card">
+					<h3>🚇 Mixcoac</h3>
+					<div class="station-info">
+						<div><strong>Línea:</strong> 12</div>
+						<div><strong>Posición:</strong> (375, 302)</div>
+						<div><strong>Etiqueta:</strong> (395, 320)</div>
+					</div>
+					<div class="line-badge line-12">LÍNEA 12</div>
+				</div>
+
+				<div class="station-card">
+					<h3>🚇 Ermita</h3>
+					<div class="station-info">
+						<div><strong>Línea:</strong> 12</div>
+						<div><strong>Posición:</strong> (561, 302)</div>
+						<div><strong>Etiqueta:</strong> (545, 320)</div>
+					</div>
+					<div class="line-badge line-12">LÍNEA 12</div>
+				</div>
+
+				<div class="station-card">
+					<h3>🚇 Tláhuac</h3>
+					<div class="station-info">
+						<div><strong>Línea:</strong> 12</div>
+						<div><strong>Posición:</strong> (657, 302)</div>
+						<div><strong>Etiqueta:</strong> (640, 320)</div>
+					</div>
+					<div class="line-badge line-12">LÍNEA 12</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- DESCRIPCIONES DETALLADAS -->
+		<section>
+			<h2>📖 DESCRIPCIONES NARRATIVAS DETALLADAS</h2>
+			<p>Información completa, atmosférica y emocional de cada estación.</p>
+
+			<!-- UNIVERSIDAD -->
+			<div class="detailed-section">
+				<h3>🚉 UNIVERSIDAD</h3>
+				<span class="state-badge state-saturated">SATURACIÓN ALTA</span>
+
+				<div class="station-info-grid">
+					<div class="info-item">
+						<strong>Línea</strong>
+						<span>3 (Verde)</span>
+					</div>
+					<div class="info-item">
+						<strong>Estado</strong>
+						<span>Saturación alta</span>
+					</div>
+					<div class="info-item">
+						<strong>Coordenadas</strong>
+						<span>457, 390</span>
+					</div>
+				</div>
+
+				<div class="description-box">
+					Miles de estudiantes usan diariamente esta estación para entrar y salir de Ciudad Universitaria. Los cambios de turno provocan oleadas de personas imposibles de controlar. Es aquí donde Alejo cae a las vías del metro.
+				</div>
+
+				<div class="sensation-section">
+					<h4>🔊 Sensación ambiental</h4>
+					<div class="sensation-list">
+						<div class="sensation-item">Mochilas chocando</div>
+						<div class="sensation-item">Conversaciones superpuestas</div>
+						<div class="sensation-item">Gente corriendo para alcanzar tren</div>
+						<div class="sensation-item">Altavoces distorsionados</div>
+					</div>
+				</div>
+
+				<div class="incidents-section">
+					<h4>⚠️ Incidentes frecuentes</h4>
+					<div class="incident-item">• Mochilas abandonadas</div>
+					<div class="incident-item">• Puertas obstruidas</div>
+					<div class="incident-item">• Crisis emocionales</div>
+					<div class="incident-item">• Saturación extrema</div>
+				</div>
+
+				<div class="emotional-state">
+					Estado emocional dominante: AGOTAMIENTO
+				</div>
+			</div>
+
+			<!-- CENTRO MÉDICO -->
+			<div class="detailed-section">
+				<h3>🏥 CENTRO MÉDICO</h3>
+				<span class="state-badge state-unstable">INESTABLE</span>
+
+				<div class="station-info-grid">
+					<div class="info-item">
+						<strong>Línea</strong>
+						<span>3 y 9</span>
+					</div>
+					<div class="info-item">
+						<strong>Estado</strong>
+						<span>Inestable</span>
+					</div>
+					<div class="info-item">
+						<strong>Coordenadas</strong>
+						<span>457, 237</span>
+					</div>
+				</div>
+
+				<div class="description-box">
+					Conecta hospitales, oficinas y transbordos interminables. Muchos usuarios llegan después de pasar horas en clínicas o trabajos agotadores. La estación respira con el ritmo de la salud y el sufrimiento de la ciudad.
+				</div>
+
+				<div class="sensation-section">
+					<h4>🔊 Sensación ambiental</h4>
+					<div class="sensation-list">
+						<div class="sensation-item">Olor a medicamento</div>
+						<div class="sensation-item">Silencio incómodo</div>
+						<div class="sensation-item">Personas dormidas</div>
+						<div class="sensation-item">Ambulancias lejanas</div>
+					</div>
+				</div>
+
+				<div class="incidents-section">
+					<h4>⚠️ Incidentes frecuentes</h4>
+					<div class="incident-item">• Usuarios desmayados</div>
+					<div class="incident-item">• Fallas eléctricas</div>
+					<div class="incident-item">• Retrasos prolongados</div>
+				</div>
+
+				<div class="emotional-state">
+					Estado emocional dominante: ANSIEDAD
+				</div>
+			</div>
+
+			<!-- HIDALGO -->
+			<div class="detailed-section">
+				<h3>🚇 HIDALGO</h3>
+				<span class="state-badge state-chaotic">CAÓTICO</span>
+
+				<div class="station-info-grid">
+					<div class="info-item">
+						<strong>Línea</strong>
+						<span>2 y 3</span>
+					</div>
+					<div class="info-item">
+						<strong>Estado</strong>
+						<span>Caótico</span>
+					</div>
+					<div class="info-item">
+						<strong>Coordenadas</strong>
+						<span>457, 187</span>
+					</div>
+				</div>
+
+				<div class="description-box">
+					Uno de los puntos con mayor flujo peatonal. El movimiento nunca se detiene y los pasillos parecen un laberinto interminable. Las personas se pierden constantemente.
+				</div>
+
+				<div class="sensation-section">
+					<h4>🔊 Sensación ambiental</h4>
+					<div class="sensation-list">
+						<div class="sensation-item">Corrientes humanas</div>
+						<div class="sensation-item">Empujones constantes</div>
+						<div class="sensation-item">Vendedores ambulantes</div>
+						<div class="sensation-item">Ecos fuertes</div>
+					</div>
+				</div>
+
+				<div class="incidents-section">
+					<h4>⚠️ Incidentes frecuentes</h4>
+					<div class="incident-item">• Usuarios perdidos</div>
+					<div class="incident-item">• Aglomeraciones</div>
+					<div class="incident-item">• Separación de grupos</div>
+				</div>
+
+				<div class="emotional-state">
+					Estado emocional dominante: ESTRÉS
+				</div>
+			</div>
+
+			<!-- PANTITLÁN -->
+			<div class="detailed-section">
+				<h3>🚉 PANTITLÁN</h3>
+				<span class="state-badge state-critical">COLAPSO PARCIAL</span>
+
+				<div class="station-info-grid">
+					<div class="info-item">
+						<strong>Línea</strong>
+						<span>1, 5, 9 y A</span>
+					</div>
+					<div class="info-item">
+						<strong>Estado</strong>
+						<span>Colapso parcial</span>
+					</div>
+					<div class="info-item">
+						<strong>Coordenadas</strong>
+						<span>315, 237</span>
+					</div>
+				</div>
+
+				<div class="description-box">
+					El corazón saturado del sistema. Miles de personas atraviesan esta estación para trabajos y escuelas. Es el punto de convergencia de las emociones de toda la ciudad.
+				</div>
+
+				<div class="sensation-section">
+					<h4>🔊 Sensación ambiental</h4>
+					<div class="sensation-list">
+						<div class="sensation-item">Andenes desbordados</div>
+						<div class="sensation-item">Calor sofocante</div>
+						<div class="sensation-item">Gente empujándose</div>
+						<div class="sensation-item">Ruido de trenes</div>
+					</div>
+				</div>
+
+				<div class="incidents-section">
+					<h4>⚠️ Incidentes frecuentes</h4>
+					<div class="incident-item">• Saturación extrema</div>
+					<div class="incident-item">• Caídas en andenes</div>
+					<div class="incident-item">• Trenes detenidos</div>
+					<div class="incident-item">• Crisis de pánico</div>
+				</div>
+
+				<div class="emotional-state">
+					Estado emocional dominante: DESESPERACIÓN
+				</div>
+			</div>
+
+			<!-- CHABACANO -->
+			<div class="detailed-section">
+				<h3>🚇 CHABACANO</h3>
+				<span class="state-badge state-unstable">SOBRECARGA</span>
+
+				<div class="station-info-grid">
+					<div class="info-item">
+						<strong>Línea</strong>
+						<span>2, 8 y 9</span>
+					</div>
+					<div class="info-item">
+						<strong>Estado</strong>
+						<span>Sobrecarga</span>
+					</div>
+				</div>
+
+				<div class="description-box">
+					Los transbordos generan confusión constante. Muchos usuarios pasan la mayor parte caminando entre líneas, confundidos por corredores que parecen no tener fin.
+				</div>
+
+				<div class="sensation-section">
+					<h4>🔊 Sensación ambiental</h4>
+					<div class="sensation-list">
+						<div class="sensation-item">Escaleras infinitas</div>
+						<div class="sensation-item">Señalamientos confusos</div>
+						<div class="sensation-item">Personas aceleradas</div>
+						<div class="sensation-item">Tensión acumulada</div>
+					</div>
+				</div>
+
+				<div class="incidents-section">
+					<h4>⚠️ Incidentes frecuentes</h4>
+					<div class="incident-item">• Usuarios desorientados</div>
+					<div class="incident-item">• Congestión en escaleras</div>
+					<div class="incident-item">• Bloqueos de flujo</div>
+				</div>
+
+				<div class="emotional-state">
+					Estado emocional dominante: FRUSTRACIÓN
+				</div>
+			</div>
+
+			<!-- TACUBAYA -->
+			<div class="detailed-section">
+				<h3>🚇 TACUBAYA</h3>
+				<span class="state-badge state-critical">CRÍTICO</span>
+
+				<div class="station-info-grid">
+					<div class="info-item">
+						<strong>Línea</strong>
+						<span>1, 7 y 9</span>
+					</div>
+					<div class="info-item">
+						<strong>Estado</strong>
+						<span>Crítico</span>
+					</div>
+					<div class="info-item">
+						<strong>Coordenadas</strong>
+						<span>569, 237</span>
+					</div>
+				</div>
+
+				<div class="description-box">
+					Una estación marcada por accidentes y caos operativo. Muchos trabajadores la consideran la más pesada emocionalmente. Hay algo inquietante en el aire que inspira miedo.
+				</div>
+
+				<div class="sensation-section">
+					<h4>🔊 Sensación ambiental</h4>
+					<div class="sensation-list">
+						<div class="sensation-item">Oscuridad</div>
+						<div class="sensation-item">Túneles húmedos</div>
+						<div class="sensation-item">Sonidos metálicos</div>
+						<div class="sensation-item">Sensación de peligro</div>
+					</div>
+				</div>
+
+				<div class="incidents-section">
+					<h4>⚠️ Incidentes frecuentes</h4>
+					<div class="incident-item">• Fallas técnicas</div>
+					<div class="incident-item">• Accidentes</div>
+					<div class="incident-item">• Retrasos masivos</div>
+				</div>
+
+				<div class="emotional-state">
+					Estado emocional dominante: MIEDO
+				</div>
+			</div>
+
+			<!-- ZÓCALO -->
+			<div class="detailed-section">
+				<h3>🏛️ ZÓCALO</h3>
+				<span class="state-badge state-variable">VARIABLE</span>
+
+				<div class="station-info-grid">
+					<div class="info-item">
+						<strong>Línea</strong>
+						<span>2</span>
+					</div>
+					<div class="info-item">
+						<strong>Estado</strong>
+						<span>Variable</span>
+					</div>
+				</div>
+
+				<div class="description-box">
+					La estación cambia según la situación política y social de la ciudad. Unas veces es tranquila, otras es un punto de tensión donde se concentra la energía del conflicto colectivo.
+				</div>
+
+				<div class="sensation-section">
+					<h4>🔊 Sensación ambiental</h4>
+					<div class="sensation-list">
+						<div class="sensation-item">Manifestaciones</div>
+						<div class="sensation-item">Policías</div>
+						<div class="sensation-item">Gritos</div>
+						<div class="sensation-item">Altavoces</div>
+						<div class="sensation-item">Banderas</div>
+					</div>
+				</div>
+
+				<div class="incidents-section">
+					<h4>⚠️ Incidentes frecuentes</h4>
+					<div class="incident-item">• Cierres temporales</div>
+					<div class="incident-item">• Protestas</div>
+					<div class="incident-item">• Saturación política</div>
+				</div>
+
+				<div class="emotional-state">
+					Estado emocional dominante: TENSIÓN SOCIAL
+				</div>
+			</div>
+
+			<!-- BALDERAS -->
+			<div class="detailed-section">
+				<h3>🚇 BALDERAS</h3>
+				<span class="state-badge state-unstable">INESTABLE</span>
+
+				<div class="station-info-grid">
+					<div class="info-item">
+						<strong>Línea</strong>
+						<span>1 y 3</span>
+					</div>
+					<div class="info-item">
+						<strong>Estado</strong>
+						<span>Inestable</span>
+					</div>
+				</div>
+
+				<div class="description-box">
+					Un punto donde muchas personas pasan desapercibidas. Algunos usuarios afirman sentirse observados en pasillos oscuros. Hay algo inquietante aquí.
+				</div>
+
+				<div class="sensation-section">
+					<h4>🔊 Sensación ambiental</h4>
+					<div class="sensation-list">
+						<div class="sensation-item">Ruido metálico</div>
+						<div class="sensation-item">Luces parpadeantes</div>
+						<div class="sensation-item">Pasillos vacíos</div>
+						<div class="sensation-item">Sensación de soledad</div>
+					</div>
+				</div>
+
+				<div class="incidents-section">
+					<h4>⚠️ Incidentes frecuentes</h4>
+					<div class="incident-item">• Reportes paranormales</div>
+					<div class="incident-item">• Usuarios desaparecidos</div>
+					<div class="incident-item">• Sombras en túneles</div>
+				</div>
+
+				<div class="emotional-state">
+					Estado emocional dominante: SOLEDAD
+				</div>
+			</div>
+
+			<!-- INSURGENTES -->
+			<div class="detailed-section">
+				<h3>🚇 INSURGENTES</h3>
+				<span class="state-badge state-unstable">SOBRECARGADO</span>
+
+				<div class="station-info-grid">
+					<div class="info-item">
+						<strong>Línea</strong>
+						<span>1</span>
+					</div>
+					<div class="info-item">
+						<strong>Estado</strong>
+						<span>Sobrecargado</span>
+					</div>
+				</div>
+
+				<div class="description-box">
+					Rodeada de oficinas, bares y centros comerciales. Mezcla vida nocturna con rutina laboral. Expresa la doble naturaleza de la ciudad: trabajo y ocio.
+				</div>
+
+				<div class="sensation-section">
+					<h4>🔊 Sensación ambiental</h4>
+					<div class="sensation-list">
+						<div class="sensation-item">Música lejana</div>
+						<div class="sensation-item">Pantallas brillantes</div>
+						<div class="sensation-item">Personas apresuradas</div>
+						<div class="sensation-item">Cansancio colectivo</div>
+					</div>
+				</div>
+
+				<div class="incidents-section">
+					<h4>⚠️ Incidentes frecuentes</h4>
+					<div class="incident-item">• Discusiones</div>
+					<div class="incident-item">• Saturación nocturna</div>
+					<div class="incident-item">• Usuarios dormidos</div>
+				</div>
+
+				<div class="emotional-state">
+					Estado emocional dominante: VACÍO EMOCIONAL
+				</div>
+			</div>
+
+			<!-- LA RAZA -->
+			<div class="detailed-section">
+				<h3>🚇 LA RAZA</h3>
+				<span class="state-badge state-unstable">INESTABLE</span>
+
+				<div class="station-info-grid">
+					<div class="info-item">
+						<strong>Línea</strong>
+						<span>3 y 5</span>
+					</div>
+					<div class="info-item">
+						<strong>Estado</strong>
+						<span>Inestable</span>
+					</div>
+				</div>
+
+				<div class="description-box">
+					Conocida por túneles largos e interminables. Muchos sienten que el tiempo funciona distinto aquí. Los corredores parecen no tener fin.
+				</div>
+
+				<div class="sensation-section">
+					<h4>🔊 Sensación ambiental</h4>
+					<div class="sensation-list">
+						<div class="sensation-item">Ecos largos</div>
+						<div class="sensation-item">Iluminación fría</div>
+						<div class="sensation-item">Caminatas eternas</div>
+						<div class="sensation-item">Distorsión temporal</div>
+					</div>
+				</div>
+
+				<div class="incidents-section">
+					<h4>⚠️ Incidentes frecuentes</h4>
+					<div class="incident-item">• Usuarios desorientados</div>
+					<div class="incident-item">• Pérdida temporal</div>
+					<div class="incident-item">• Fallas de comunicación</div>
+				</div>
+
+				<div class="emotional-state">
+					Estado emocional dominante: DESORIENTACIÓN
+				</div>
+			</div>
+
+			<!-- OBSERVATORIO -->
+			<div class="detailed-section">
+				<h3>🚇 OBSERVATORIO</h3>
+				<span class="state-badge state-terminal">TERMINAL SATURADA</span>
+
+				<div class="station-info-grid">
+					<div class="info-item">
+						<strong>Línea</strong>
+						<span>1</span>
+					</div>
+					<div class="info-item">
+						<strong>Estado</strong>
+						<span>Terminal saturada</span>
+					</div>
+				</div>
+
+				<div class="description-box">
+					Último punto para miles que regresan agotados a casa. Es donde la ciudad suelta su carga del día. El cansancio es casi tangible en el aire.
+				</div>
+
+				<div class="sensation-section">
+					<h4>🔊 Sensación ambiental</h4>
+					<div class="sensation-list">
+						<div class="sensation-item">Silencio cansado</div>
+						<div class="sensation-item">Personas dormidas</div>
+						<div class="sensation-item">Mochilas pesadas</div>
+						<div class="sensation-item">Filas interminables</div>
+					</div>
+				</div>
+
+				<div class="incidents-section">
+					<h4>⚠️ Incidentes frecuentes</h4>
+					<div class="incident-item">• Retrasos</div>
+					<div class="incident-item">• Saturación de acceso</div>
+					<div class="incident-item">• Usuarios dormidos</div>
+				</div>
+
+				<div class="emotional-state">
+					Estado emocional dominante: FATIGA EXTREMA
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<footer>
+		<p>&copy; 2026 Encaminados. Documentación generada automáticamente.</p>
+		<p><small><a href="index.html">← Volver al inicio</a></small></p>
+	</footer>
+</body>
+</html>

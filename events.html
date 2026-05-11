@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Eventos - Encaminados Wiki</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'IBM Plex Mono', 'Courier New', monospace;
+			background:
+				radial-gradient(circle at top, rgba(88, 255, 154, 0.08), transparent 35%),
+				linear-gradient(180deg, #05070c 0%, #0b1018 45%, #070b11 100%);
+			color: #e8eadf;
+			line-height: 1.6;
+		}
+
+		header {
+			background: linear-gradient(135deg, #0f1722 0%, #111d2c 55%, #0b1018 100%);
+			border-bottom: 4px solid #58ff9a;
+			padding: 30px 20px;
+			text-align: center;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+		}
+
+		header h1 {
+			font-size: 2.5em;
+			color: #58ff9a;
+			font-family: 'Trebuchet MS', 'Arial Black', sans-serif;
+			letter-spacing: 0.06em;
+			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+			margin-bottom: 10px;
+		}
+
+		nav {
+			background: rgba(8, 12, 17, 0.92);
+			border-bottom: 2px solid #6fb7ff;
+			display: flex;
+			justify-content: center;
+			gap: 2px;
+			padding: 0;
+			flex-wrap: wrap;
+		}
+
+		nav a {
+			color: #d7dbc9;
+			text-decoration: none;
+			padding: 12px 20px;
+			border-right: 1px solid #243244;
+			transition: all 0.3s ease;
+		}
+
+		nav a:last-child {
+			border-right: none;
+		}
+
+		nav a:hover {
+			background: #58ff9a;
+			color: #04110b;
+			font-weight: bold;
+		}
+
+		main {
+			max-width: 1200px;
+			margin: 40px auto;
+			padding: 20px;
+		}
+
+		section {
+			background: linear-gradient(180deg, rgba(12, 18, 27, 0.96), rgba(9, 14, 20, 0.96));
+			border: 1px solid #243244;
+			border-left: 4px solid #6fb7ff;
+			padding: 30px;
+			margin-bottom: 30px;
+			border-radius: 2px;
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+		}
+
+		h2 {
+			color: #58ff9a;
+			font-size: 1.8em;
+			margin-bottom: 20px;
+			text-transform: uppercase;
+			border-bottom: 2px solid rgba(111, 183, 255, 0.65);
+			padding-bottom: 10px;
+			font-family: 'Trebuchet MS', 'Arial Black', sans-serif;
+		}
+
+		h3 {
+			color: #6fb7ff;
+			font-size: 1.3em;
+			margin: 20px 0 10px;
+		}
+
+		.event-card {
+			background: #0f1620;
+			border: 1px solid #243244;
+			border-left: 3px solid #58ff9a;
+			padding: 18px;
+			margin: 15px 0;
+			border-radius: 2px;
+		}
+
+		.event-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 12px;
+			flex-wrap: wrap;
+		}
+
+		.event-header h4 {
+			color: #58ff9a;
+			margin: 0;
+			flex: 1;
+		}
+
+		.event-id {
+			background: rgba(88, 255, 154, 0.08);
+			color: #58ff9a;
+			padding: 4px 8px;
+			border-radius: 3px;
+			font-size: 0.8em;
+			margin-left: 10px;
+		}
+
+		.event-desc {
+			color: #d7dbc9;
+			margin: 12px 0;
+			line-height: 1.5;
+		}
+
+		.options-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 12px;
+			margin-top: 12px;
+		}
+
+		.option {
+			background: #0c121a;
+			border: 1px solid #243244;
+			padding: 12px;
+			border-radius: 3px;
+		}
+
+		.option-a {
+			border-left: 3px solid #58ff9a;
+		}
+
+		.option-b {
+			border-left: 3px solid #6fb7ff;
+		}
+
+		.option-title {
+			color: #6fb7ff;
+			font-weight: bold;
+			margin-bottom: 8px;
+		}
+
+		.effect {
+			font-size: 0.9em;
+			color: #d7dbc9;
+		}
+
+		.effect .stat {
+			display: inline-block;
+			margin: 4px 8px 4px 0;
+		}
+
+		.stat {
+			padding: 3px 8px;
+			border-radius: 3px;
+			font-size: 0.85em;
+		}
+
+		.stat.positive {
+			background: rgba(88, 255, 154, 0.12);
+			color: #58ff9a;
+		}
+
+		.stat.negative {
+			background: rgba(255, 107, 114, 0.12);
+			color: #ff6b72;
+		}
+
+		.filter-tabs {
+			display: flex;
+			gap: 10px;
+			margin-bottom: 20px;
+			flex-wrap: wrap;
+		}
+
+		.filter-btn {
+			background: #111923;
+			border: 1px solid #243244;
+			color: #d7dbc9;
+			padding: 8px 16px;
+			border-radius: 3px;
+			cursor: pointer;
+			transition: all 0.3s;
+		}
+
+		.filter-btn:hover {
+			border-color: #58ff9a;
+			color: #58ff9a;
+		}
+
+		.filter-btn.active {
+			background: #58ff9a;
+			color: #04110b;
+			font-weight: bold;
+		}
+
+		footer {
+			background: #080c12;
+			border-top: 2px solid #6fb7ff;
+			text-align: center;
+			padding: 20px;
+			color: #9ba3ad;
+			margin-top: 40px;
+		}
+
+		footer a {
+			color: #58ff9a;
+			text-decoration: none;
+		}
+
+		@media (max-width: 768px) {
+			.options-grid {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<h1>⚠ EVENTOS</h1>
+		<p>Catálogo completo de casos y sus consecuencias</p>
+	</header>
+
+	<nav>
+		<a href="index.html">INICIO</a>
+		<a href="overview.html">RESUMEN</a>
+		<a href="characters.html">PERSONAJES</a>
+		<a href="stations.html">ESTACIONES</a>
+		<a href="events.html">EVENTOS</a>
+		<a href="mechanics.html">MECÁNICAS</a>
+		<a href="lore.html">LORE</a>
+	</nav>
+
+	<main>
+		<section>
+			<h2>Catálogo de Eventos</h2>
+			<p>Total: 41 eventos únicos repartidos entre 6 estaciones principales.</p>
+
+			<div class="filter-tabs">
+				<button class="filter-btn active" onclick="filterByStation('all')">TODOS</button>
+				<button class="filter-btn" onclick="filterByStation('UNIVERSIDAD')">UNIVERSIDAD</button>
+				<button class="filter-btn" onclick="filterByStation('CENTRO MÉDICO')">CENTRO MÉDICO</button>
+				<button class="filter-btn" onclick="filterByStation('PANTITLÁN')">PANTITLÁN</button>
+				<button class="filter-btn" onclick="filterByStation('HIDALGO')">HIDALGO</button>
+				<button class="filter-btn" onclick="filterByStation('ZAPATA')">ZAPATA</button>
+				<button class="filter-btn" onclick="filterByStation('MIXCOAC')">MIXCOAC</button>
+			</div>
+
+			<div id="events-container"></div>
+		</section>
+	</main>
+
+	<footer>
+		<p>&copy; 2026 Encaminados. Documentación generada automáticamente.</p>
+		<p><small><a href="index.html">← Volver al inicio</a></small></p>
+	</footer>
+
+	<script>
+		const events = [
+			{ id: "universidad_1", estacion: "UNIVERSIDAD", titulo: "Cientos de estudiantes entran al mismo tiempo por cambio de turno", opcionA: "Abrir acceso extra", opcionB: "Mantener flujo normal", molestiaA: -4, molestiaB: 6, funcionamientoA: -5, funcionamientoB: 2 },
+			{ id: "universidad_2", estacion: "UNIVERSIDAD", titulo: "Mochila abandonada cerca del andén", opcionA: "Revisar mochila", opcionB: "Ignorar reporte", molestiaA: 7, molestiaB: -2, funcionamientoA: -4, funcionamientoB: 2 },
+			{ id: "universidad_3", estacion: "UNIVERSIDAD", titulo: "Protesta estudiantil bloquea torniquetes", opcionA: "Negociar paso parcial", opcionB: "Desalojar acceso", molestiaA: 4, molestiaB: 9, funcionamientoA: -5, funcionamientoB: 3 },
+			{ id: "universidad_4", estacion: "UNIVERSIDAD", titulo: "Tren lleno no puede cerrar puertas", opcionA: "Vaciar vagón", opcionB: "Forzar salida", molestiaA: 6, molestiaB: -2, funcionamientoA: -4, funcionamientoB: 3 },
+			{ id: "centromedico_1", estacion: "CENTRO MÉDICO", titulo: "Persona se desmaya en andén", opcionA: "Atender de inmediato", opcionB: "Esperar siguiente estación", molestiaA: 6, molestiaB: -2, funcionamientoA: -4, funcionamientoB: 2 },
+			{ id: "centromedico_2", estacion: "CENTRO MÉDICO", titulo: "Usuario en silla de ruedas requiere elevador averiado", opcionA: "Dar apoyo manual", opcionB: "Pedir esperar", molestiaA: 4, molestiaB: 7, funcionamientoA: -3, funcionamientoB: 1 },
+			{ id: "centromedico_3", estacion: "CENTRO MÉDICO", titulo: "Tren detenido con pasajero enfermo dentro", opcionA: "Evacuar y atender", opcionB: "Avanzar normal", molestiaA: 8, molestiaB: -2, funcionamientoA: -6, funcionamientoB: 3 },
+			{ id: "centromedico_4", estacion: "CENTRO MÉDICO", titulo: "Objeto sospechoso en correspondencia", opcionA: "Aislar zona", opcionB: "Ignorar", molestiaA: 9, molestiaB: -3, funcionamientoA: -7, funcionamientoB: 2 },
+			{ id: "pantitlan_1", estacion: "PANTITLÁN", titulo: "Andén rebasado de capacidad", opcionA: "Cerrar acceso temporal", opcionB: "Mantener abierto", molestiaA: 10, molestiaB: -2, funcionamientoA: 5, funcionamientoB: -10 },
+			{ id: "pantitlan_2", estacion: "PANTITLÁN", titulo: "Usuarios empujan para entrar", opcionA: "Frenar abordaje", opcionB: "Permitir entrada total", molestiaA: 7, molestiaB: -2, funcionamientoA: 4, funcionamientoB: -8 },
+			{ id: "pantitlan_3", estacion: "PANTITLÁN", titulo: "Carteristas operando", opcionA: "Operativo de seguridad", opcionB: "Ignorar", molestiaA: 5, molestiaB: 8, funcionamientoA: -3, funcionamientoB: 1 },
+			{ id: "pantitlan_4", estacion: "PANTITLÁN", titulo: "Niño separado de su familia", opcionA: "Detener flujo y buscar", opcionB: "Aviso rápido y seguir", molestiaA: 6, molestiaB: 3, funcionamientoA: -5, funcionamientoB: 1 },
+			{ id: "hidalgo_1", estacion: "HIDALGO", titulo: "Manifestantes ocupan acceso principal", opcionA: "Negociar ruta alterna", opcionB: "Desalojar", molestiaA: 4, molestiaB: 10, funcionamientoA: -5, funcionamientoB: 3 },
+			{ id: "hidalgo_2", estacion: "HIDALGO", titulo: "Vendedores bloquean pasillo", opcionA: "Retirarlos", opcionB: "Tolerarlos", molestiaA: 6, molestiaB: 2, funcionamientoA: 4, funcionamientoB: -5 },
+			{ id: "hidalgo_3", estacion: "HIDALGO", titulo: "Policía solicita cerrar entrada", opcionA: "Cerrar acceso", opcionB: "Mantener abierto", molestiaA: 8, molestiaB: 3, funcionamientoA: 3, funcionamientoB: -4 },
+			{ id: "hidalgo_4", estacion: "HIDALGO", titulo: "Grupo exige acceso gratuito", opcionA: "Permitir paso temporal", opcionB: "Negar acceso", molestiaA: -3, molestiaB: 9, funcionamientoA: -4, funcionamientoB: 2 },
+			{ id: "zapata_1", estacion: "ZAPATA", titulo: "Intervalos demasiado largos", opcionA: "Comunicar retraso", opcionB: "No informar", molestiaA: -4, molestiaB: 8, funcionamientoA: 0, funcionamientoB: 1 },
+			{ id: "zapata_2", estacion: "ZAPATA", titulo: "Pasillo de transbordo saturado", opcionA: "Desviar flujo", opcionB: "Mantener igual", molestiaA: 3, molestiaB: 6, funcionamientoA: 4, funcionamientoB: -5 },
+			{ id: "zapata_3", estacion: "ZAPATA", titulo: "Trenes llegan llenos", opcionA: "Retener siguiente tren", opcionB: "Continuar igual", molestiaA: 6, molestiaB: 7, funcionamientoA: 5, funcionamientoB: -4 },
+			{ id: "zapata_4", estacion: "ZAPATA", titulo: "Altavoz falla", opcionA: "Personal informa manualmente", opcionB: "Ignorar falla", molestiaA: 2, molestiaB: 8, funcionamientoA: -2, funcionamientoB: 0 },
+			{ id: "mixcoac_1", estacion: "MIXCOAC", titulo: "Maniobra operativa retrasada", opcionA: "Esperar maniobra segura", opcionB: "Acelerar proceso", molestiaA: 5, molestiaB: -2, funcionamientoA: 3, funcionamientoB: -7 },
+			{ id: "mixcoac_2", estacion: "MIXCOAC", titulo: "Fallo en señalización", opcionA: "Revisar sistema", opcionB: "Operación manual inmediata", molestiaA: 6, molestiaB: -1, funcionamientoA: 5, funcionamientoB: -6 },
+			{ id: "mixcoac_3", estacion: "MIXCOAC", titulo: "Puertas sin cierre correcto", opcionA: "Sacar tren de servicio", opcionB: "Mantener operación", molestiaA: 7, molestiaB: -2, funcionamientoA: -4, funcionamientoB: -10 },
+			{ id: "mixcoac_4", estacion: "MIXCOAC", titulo: "Olor a quemado", opcionA: "Cerrar zona e inspeccionar", opcionB: "Continuar servicio", molestiaA: 8, molestiaB: -2, funcionamientoA: -5, funcionamientoB: -12 },
+			{ id: "universidad_5", estacion: "UNIVERSIDAD", titulo: "Fila invade avenida exterior", opcionA: "Abrir acceso adicional", opcionB: "Mantener control normal", molestiaA: -3, molestiaB: 7, funcionamientoA: -4, funcionamientoB: 2 },
+			{ id: "universidad_6", estacion: "UNIVERSIDAD", titulo: "Corte de energía en torniquetes", opcionA: "Paso manual temporal", opcionB: "Esperar reinicio", molestiaA: 2, molestiaB: 8, funcionamientoA: -3, funcionamientoB: 1 },
+			{ id: "universidad_7", estacion: "UNIVERSIDAD", titulo: "Rumor de suspensión de clases", opcionA: "Regular salidas", opcionB: "Dejar flujo libre", molestiaA: 3, molestiaB: 6, funcionamientoA: -2, funcionamientoB: -5 },
+			{ id: "centromedico_5", estacion: "CENTRO MÉDICO", titulo: "Paciente trasladado bloquea pasillo", opcionA: "Desviar flujo", opcionB: "Mantener paso abierto", molestiaA: 2, molestiaB: 5, funcionamientoA: -2, funcionamientoB: -4 },
+			{ id: "centromedico_6", estacion: "CENTRO MÉDICO", titulo: "Persona desorientada en andén", opcionA: "Asignar apoyo", opcionB: "Dar aviso general", molestiaA: 1, molestiaB: 4, funcionamientoA: -2, funcionamientoB: 0 },
+			{ id: "centromedico_7", estacion: "CENTRO MÉDICO", titulo: "Ambulancia solicita acceso inmediato", opcionA: "Despejar entradas", opcionB: "Mantener operación normal", molestiaA: 3, molestiaB: 6, funcionamientoA: -2, funcionamientoB: -3 },
+			{ id: "pantitlan_5", estacion: "PANTITLÁN", titulo: "Perrito entra a vías", opcionA: "Cortar corriente y rescatar", opcionB: "Intentar moverlo rápido", molestiaA: 2, molestiaB: 8, funcionamientoA: -6, funcionamientoB: -10 },
+			{ id: "pantitlan_6", estacion: "PANTITLÁN", titulo: "Empujones en borde de andén", opcionA: "Cerrar acceso temporal", opcionB: "Mantener abordaje", molestiaA: 6, molestiaB: -2, funcionamientoA: 3, funcionamientoB: -9 },
+			{ id: "pantitlan_7", estacion: "PANTITLÁN", titulo: "Maleta atorada en puertas", opcionA: "Desalojar vagón", opcionB: "Forzar cierre", molestiaA: 5, molestiaB: -1, funcionamientoA: -3, funcionamientoB: -7 },
+			{ id: "pantitlan_8", estacion: "PANTITLÁN", titulo: "Caída en escaleras de correspondencia", opcionA: "Cerrar paso y atender", opcionB: "Mover flujo lateral", molestiaA: 4, molestiaB: 6, funcionamientoA: -4, funcionamientoB: -2 },
+			{ id: "hidalgo_5", estacion: "HIDALGO", titulo: "Marcha llega a accesos", opcionA: "Abrir rutas alternas", opcionB: "Cerrar accesos", molestiaA: 3, molestiaB: 8, funcionamientoA: -3, funcionamientoB: 2 },
+			{ id: "hidalgo_6", estacion: "HIDALGO", titulo: "Rumor de riña en andén", opcionA: "Enviar seguridad", opcionB: "Esperar confirmación", molestiaA: 2, molestiaB: 7, funcionamientoA: -2, funcionamientoB: -4 },
+			{ id: "hidalgo_7", estacion: "HIDALGO", titulo: "Comercio invade correspondencia", opcionA: "Retirar puestos", opcionB: "Permitir operación", molestiaA: 5, molestiaB: 2, funcionamientoA: 4, funcionamientoB: -5 },
+			{ id: "zapata_5", estacion: "ZAPATA", titulo: "Altavoces dan mensajes opuestos", opcionA: "Cancelar audio y orientar manualmente", opcionB: "Mantener sistema", molestiaA: 1, molestiaB: 7, funcionamientoA: -2, funcionamientoB: -3 },
+			{ id: "zapata_6", estacion: "ZAPATA", titulo: "Pasillo detenido por saturación", opcionA: "Separar sentidos de paso", opcionB: "Esperar a que fluya", molestiaA: 2, molestiaB: 6, funcionamientoA: 4, funcionamientoB: -5 },
+			{ id: "zapata_7", estacion: "ZAPATA", titulo: "Convoy llega sin abrir puertas", opcionA: "Retener siguiente tren", opcionB: "Continuar servicio", molestiaA: 4, molestiaB: 8, funcionamientoA: -2, funcionamientoB: 1 },
+			{ id: "mixcoac_5", estacion: "MIXCOAC", titulo: "Olor a quemado en gabinete", opcionA: "Cerrar zona e inspeccionar", opcionB: "Continuar operación", molestiaA: 7, molestiaB: -2, funcionamientoA: -4, funcionamientoB: -11 },
+			{ id: "mixcoac_6", estacion: "MIXCOAC", titulo: "Conductor reporta fatiga", opcionA: "Esperar relevo", opcionB: "Pedir último viaje", molestiaA: 4, molestiaB: -1, funcionamientoA: -3, funcionamientoB: -8 },
+			{ id: "mixcoac_7", estacion: "MIXCOAC", titulo: "Señal intermitente en tablero", opcionA: "Revisión completa", opcionB: "Operación manual inmediata", molestiaA: 5, molestiaB: -1, funcionamientoA: 3, funcionamientoB: -7 },
+		];
+
+		let currentFilter = "all";
+
+		function renderEvents(filter = "all") {
+			const container = document.getElementById("events-container");
+			container.innerHTML = "";
+
+			const filtered = filter === "all" ? events : events.filter(e => e.estacion === filter);
+
+			filtered.forEach(event => {
+				const card = document.createElement("div");
+				card.className = "event-card";
+				card.innerHTML = `
+					<div class="event-header">
+						<h4>${event.titulo}</h4>
+						<div class="event-id">${event.id}</div>
+					</div>
+					<div class="options-grid">
+						<div class="option option-a">
+							<div class="option-title">A) ${event.opcionA}</div>
+							<div class="effect">
+								<span class="stat ${event.molestiaA < 0 ? 'positive' : 'negative'}">Molestia: ${event.molestiaA > 0 ? '+' : ''}${event.molestiaA}</span>
+								<span class="stat ${event.funcionamientoA < 0 ? 'negative' : 'positive'}">Función: ${event.funcionamientoA > 0 ? '+' : ''}${event.funcionamientoA}</span>
+							</div>
+						</div>
+						<div class="option option-b">
+							<div class="option-title">B) ${event.opcionB}</div>
+							<div class="effect">
+								<span class="stat ${event.molestiaB < 0 ? 'positive' : 'negative'}">Molestia: ${event.molestiaB > 0 ? '+' : ''}${event.molestiaB}</span>
+								<span class="stat ${event.funcionamientoB < 0 ? 'negative' : 'positive'}">Función: ${event.funcionamientoB > 0 ? '+' : ''}${event.funcionamientoB}</span>
+							</div>
+						</div>
+					</div>
+				`;
+				container.appendChild(card);
+			});
+		}
+
+		function filterByStation(station) {
+			currentFilter = station;
+			document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
+			event.target.classList.add("active");
+			renderEvents(station);
+		}
+
+		renderEvents();
+	</script>
+</body>
+</html>

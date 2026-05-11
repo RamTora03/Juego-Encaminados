@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Mecánicas - Encaminados Wiki</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'IBM Plex Mono', 'Courier New', monospace;
+			background:
+				radial-gradient(circle at top, rgba(88, 255, 154, 0.08), transparent 35%),
+				linear-gradient(180deg, #05070c 0%, #0b1018 45%, #070b11 100%);
+			color: #e8eadf;
+			line-height: 1.6;
+		}
+
+		header {
+			background: linear-gradient(135deg, #0f1722 0%, #111d2c 55%, #0b1018 100%);
+			border-bottom: 4px solid #58ff9a;
+			padding: 30px 20px;
+			text-align: center;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+		}
+
+		header h1 {
+			font-size: 2.5em;
+			color: #58ff9a;
+			font-family: 'Trebuchet MS', 'Arial Black', sans-serif;
+			letter-spacing: 0.06em;
+			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+			margin-bottom: 10px;
+		}
+
+		nav {
+			background: rgba(8, 12, 17, 0.92);
+			border-bottom: 2px solid #6fb7ff;
+			display: flex;
+			justify-content: center;
+			gap: 2px;
+			padding: 0;
+			flex-wrap: wrap;
+		}
+
+		nav a {
+			color: #d7dbc9;
+			text-decoration: none;
+			padding: 12px 20px;
+			border-right: 1px solid #243244;
+			transition: all 0.3s ease;
+		}
+
+		nav a:last-child {
+			border-right: none;
+		}
+
+		nav a:hover {
+			background: #58ff9a;
+			color: #04110b;
+			font-weight: bold;
+		}
+
+		main {
+			max-width: 1200px;
+			margin: 40px auto;
+			padding: 20px;
+		}
+
+		section {
+			background: linear-gradient(180deg, rgba(12, 18, 27, 0.96), rgba(9, 14, 20, 0.96));
+			border: 1px solid #243244;
+			border-left: 4px solid #6fb7ff;
+			padding: 30px;
+			margin-bottom: 30px;
+			border-radius: 2px;
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+		}
+
+		h2 {
+			color: #58ff9a;
+			font-size: 1.8em;
+			margin-bottom: 20px;
+			text-transform: uppercase;
+			border-bottom: 2px solid rgba(111, 183, 255, 0.65);
+			padding-bottom: 10px;
+			font-family: 'Trebuchet MS', 'Arial Black', sans-serif;
+		}
+
+		h3 {
+			color: #cfd8c3;
+			font-size: 1.3em;
+			margin: 20px 0 15px;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin: 20px 0;
+		}
+
+		th {
+			background: #0f1a28;
+			color: #58ff9a;
+			padding: 12px;
+			text-align: left;
+			border: 1px solid #243244;
+			font-weight: bold;
+		}
+
+		td {
+			padding: 10px 12px;
+			border: 1px solid #243244;
+			background: #0c121a;
+		}
+
+		tr:hover td {
+			background: #111925;
+		}
+
+		code {
+			background: rgba(88, 255, 154, 0.08);
+			color: #58ff9a;
+			padding: 2px 6px;
+			border-radius: 3px;
+			font-family: 'Courier New', monospace;
+		}
+
+		.stat-box {
+			background: #0f1620;
+			border: 1px solid #243244;
+			border-left: 3px solid #58ff9a;
+			padding: 20px;
+			margin: 15px 0;
+			border-radius: 3px;
+		}
+
+		.stat-box h4 {
+			color: #6fb7ff;
+			margin-bottom: 12px;
+		}
+
+		.stat-row {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 15px;
+			margin-top: 15px;
+		}
+
+		.stat-item {
+			background: #0c121a;
+			border: 1px solid #243244;
+			padding: 12px;
+			border-radius: 3px;
+		}
+
+		.stat-item strong {
+			color: #58ff9a;
+			display: block;
+			margin-bottom: 8px;
+		}
+
+		ul {
+			margin-left: 20px;
+		}
+
+		li {
+			margin-bottom: 10px;
+		}
+
+		footer {
+			background: #080c12;
+			border-top: 2px solid #6fb7ff;
+			text-align: center;
+			padding: 20px;
+			color: #9ba3ad;
+			margin-top: 40px;
+		}
+
+		footer a {
+			color: #58ff9a;
+			text-decoration: none;
+		}
+
+		@media (max-width: 768px) {
+			.stat-row {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<h1>⚙ MECÁNICAS</h1>
+		<p>Sistemas, estadísticas y fórmulas</p>
+	</header>
+
+	<nav>
+		<a href="index.html">INICIO</a>
+		<a href="overview.html">RESUMEN</a>
+		<a href="characters.html">PERSONAJES</a>
+		<a href="stations.html">ESTACIONES</a>
+		<a href="events.html">EVENTOS</a>
+		<a href="mechanics.html">MECÁNICAS</a>
+		<a href="lore.html">LORE</a>
+	</nav>
+
+	<main>
+		<section>
+			<h2>Estadísticas Principales</h2>
+
+			<div class="stat-box">
+				<h4>📊 Funcionamiento del Metro</h4>
+				<p><strong>Rango:</strong> 0-100</p>
+				<p style="margin-top: 10px;">
+					Representa la salud operativa del sistema. Determina qué tan bien funciona el Metro.
+				</p>
+				<p style="margin-top: 10px; color: #cbd5e1;">
+					<strong>Fórmula base:</strong> 55 + (salud unidades × 0.4) - (estrés × 0.5) - (precio - 5) × 6 + sesgo
+				</p>
+				<p style="margin-top: 10px; color: #fca311;">Si cae a 0 → Pierdes</p>
+			</div>
+
+			<div class="stat-box">
+				<h4>😠 Molestia Pública</h4>
+				<p><strong>Rango:</strong> 0-100</p>
+				<p style="margin-top: 10px;">
+					Nivel de insatisfacción de los ciudadanos. Aumenta con decisiones impopulares.
+				</p>
+				<p style="margin-top: 10px; color: #cbd5e1;">
+					<strong>Modificación:</strong> Cada evento suma/resta un valor según la opción elegida.
+				</p>
+				<p style="margin-top: 10px; color: #ef4444;">Si alcanza 100 → Pierdes</p>
+			</div>
+
+			<div class="stat-box">
+				<h4>😤 Estrés del Sistema</h4>
+				<p><strong>Rango:</strong> 0-100</p>
+				<p style="margin-top: 10px;">
+					Presión operativa causada por sobrecarga, retrasos y mantenimiento postergado. 
+					Reduce el funcionamiento del Metro.
+				</p>
+			</div>
+
+			<div class="stat-box">
+				<h4>🏥 Salud de Unidades</h4>
+				<p><strong>Rango:</strong> 0-100</p>
+				<p style="margin-top: 10px;">
+					Estado de trenes, puertas y sistemas técnicos. Baja por sobrecarga, sube con mantenimiento.
+				</p>
+			</div>
+
+			<div class="stat-box">
+				<h4>💵 Precio del Boleto</h4>
+				<p><strong>Rango:</strong> $1-$10</p>
+				<p style="margin-top: 10px;">
+					Costo del transporte. Afecta funcionamiento (precio alto = menos usuarios = menos estrés) 
+					pero aumenta molestia pública.
+				</p>
+			</div>
+
+			<div class="stat-box">
+				<h4>📍 Sesgo de Función</h4>
+				<p><strong>Rango:</strong> -40 a 40</p>
+				<p style="margin-top: 10px;">
+					Modificador que refleja decisiones estratégicas acumuladas. 
+					Algunas opciones ajustan este sesgo.
+				</p>
+			</div>
+		</section>
+
+		<section>
+			<h2>Dinámicas de Actualización</h2>
+
+			<h3>Cada Frame</h3>
+			<ul>
+				<li>Timer decrece (cuenta atrás de 5 minutos)</li>
+				<li>Cooldown de casos decrece</li>
+				<li>Si cooldown llega a 0, aparece un nuevo caso</li>
+				<li>Las estadísticas se normalizan (clamp) a sus rangos válidos</li>
+			</ul>
+
+			<h3 style="margin-top: 20px;">Cuando Resuelves un Caso</h3>
+			<ol>
+				<li>Se aplican los efectos de molestia y funcionamiento de tu opción</li>
+				<li>Se regenera cooldown de casos (aleatorio 8-12 segundos)</li>
+				<li>Se intenta mostrar la voz de Alejo (chance según condiciones)</li>
+				<li>Se reproduce sonido de confirmación</li>
+				<li>Se actualiza el HUD</li>
+			</ol>
+
+			<h3 style="margin-top: 20px;">Impacto en Molestia Pública (por funcionamiento)</h3>
+			<table>
+				<thead>
+					<tr>
+						<th>Funcionamiento</th>
+						<th>Efecto de Molestia por Frame</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>≥ 80</td>
+						<td><span style="color: #22c55e;">-1.5 por frame</span> (mejora)</td>
+					</tr>
+					<tr>
+						<td>60-79</td>
+						<td><span style="color: #22c55e;">-0.4 por frame</span> (mejora leve)</td>
+					</tr>
+					<tr>
+						<td>40-59</td>
+						<td><span style="color: #ef4444;">+1.2 por frame</span> (empeora leve)</td>
+					</tr>
+					<tr>
+						<td>&lt; 40</td>
+						<td><span style="color: #ef4444;">+3.5 por frame</span> (empeora mucho)</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+
+		<section>
+			<h2>Sistema de Casos</h2>
+
+			<h3>Generación de Casos</h3>
+			<ul>
+				<li>Aparecen automáticamente cada 8-12 segundos (variable)</li>
+				<li>Se toma una estación como foco según la posición del jugador</li>
+				<li>Se filtra por "banda horaria" (mañana, tarde, noche)</li>
+				<li>Se evita repetir el mismo caso consecutivamente</li>
+				<li>Se intenta dar casos de la estación enfocada (70% chance)</li>
+			</ul>
+
+			<h3 style="margin-top: 20px;">Bandas Horarias</h3>
+			<table>
+				<thead>
+					<tr>
+						<th>Banda</th>
+						<th>Rango de Tiempo</th>
+						<th>Características</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Mañana</td>
+						<td>Antes de 12:00</td>
+						<td>Casos de saturación, cambios de turno</td>
+					</tr>
+					<tr>
+						<td>Tarde</td>
+						<td>12:00 - 19:00</td>
+						<td>Casos de fallas técnicas, mantenimiento</td>
+					</tr>
+					<tr>
+						<td>Noche</td>
+						<td>Después de 19:00</td>
+						<td>Ambiente tenso, apariciones de Alejo</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+
+		<section>
+			<h2>La Voz de Alejo</h2>
+			<p>
+				"Alejo está atrapado en el alma del Metro" — un personaje misterioso que aparece en momentos críticos.
+			</p>
+
+			<h3>Condiciones para Aparecer</h3>
+			<ul>
+				<li>Base: 10-15% de chance en estaciones clave (Universidad, Centro Médico, Hidalgo, Zapata, Mixcoac)</li>
+				<li>↑ 12% si funcionamiento ≥ 80 y molestia ≤ 25</li>
+				<li>↑ 12% si funcionamiento ≤ 25 o molestia ≥ 80</li>
+				<li>↑ 12% si quedan ≤ 60 segundos</li>
+				<li>↑ 15% al entrar a una estación clave (máx 55% total)</li>
+			</ul>
+
+			<h3 style="margin-top: 20px;">Frases de Alejo</h3>
+			<ul>
+				<li>"AÚN NO ES TARDE"</li>
+				<li>"ALGO CAMBIÓ AQUÍ"</li>
+				<li>"NO MIRES ATRÁS"</li>
+				<li>"EL METRO RECUERDA"</li>
+				<li>"ESTO YA PASÓ"</li>
+				<li>"ESCUCHA EL SILENCIO"</li>
+			</ul>
+		</section>
+
+		<section>
+			<h2>Controles y Entrada</h2>
+			<table>
+				<thead>
+					<tr>
+						<th>Tecla</th>
+						<th>Acción</th>
+						<th>Contexto</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>← Flecha Izq</td>
+						<td>Navegar a estación anterior</td>
+						<td>En mapa</td>
+					</tr>
+					<tr>
+						<td>→ Flecha Der</td>
+						<td>Navegar a estación siguiente</td>
+						<td>En mapa</td>
+					</tr>
+					<tr>
+						<td>↑ Flecha Arr</td>
+						<td>Navegar a estación arriba</td>
+						<td>En mapa</td>
+					</tr>
+					<tr>
+						<td>↓ Flecha Abj</td>
+						<td>Navegar a estación abajo</td>
+						<td>En mapa</td>
+					</tr>
+					<tr>
+						<td>E</td>
+						<td>Entrar estación / Revelar caso / Hablar NPC</td>
+						<td>Según contexto</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>Elegir opción A</td>
+						<td>Caso visible</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>Elegir opción B</td>
+						<td>Caso visible</td>
+					</tr>
+					<tr>
+						<td>Q / Escape</td>
+						<td>Salir de estación</td>
+						<td>En estación</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+
+		<section>
+			<h2>Finales y Condiciones de Victoria</h2>
+
+			<h3>Inicio de Partida</h3>
+			<ul>
+				<li>Funcionamiento: 62</li>
+				<li>Molestia Pública: 28</li>
+				<li>Estrés: 34</li>
+				<li>Salud Unidades: 74</li>
+				<li>Precio: $5</li>
+				<li>Tiempo: 300 segundos (5 minutos)</li>
+			</ul>
+
+			<h3 style="margin-top: 20px;">Condiciones de Derrota</h3>
+			<ul>
+				<li>Molestia pública ≥ 100</li>
+				<li>Funcionamiento ≤ 0</li>
+			</ul>
+
+			<h3 style="margin-top: 20px;">Finales al Completar la Jornada (300s)</h3>
+			<table>
+				<thead>
+					<tr>
+						<th>Condición</th>
+						<th>Final</th>
+						<th>Mensaje</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Func ≥ 70 && Molestia ≤ 35</td>
+						<td>🏆 VICTORIA</td>
+						<td>"Sobreviviste al Metro..."</td>
+					</tr>
+					<tr>
+						<td>Func ≥ 35 (pero no victoria)</td>
+						<td>⚖ EQUILIBRIO</td>
+						<td>"El Metro siguió funcionando, pero la ciudad quedó insatisfecha..."</td>
+					</tr>
+					<tr>
+						<td>Func < 35</td>
+						<td>☠ DERROTA</td>
+						<td>"El sistema colapsó..."</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+	</main>
+
+	<footer>
+		<p>&copy; 2026 Encaminados. Documentación generada automáticamente.</p>
+		<p><small><a href="index.html">← Volver al inicio</a></small></p>
+	</footer>
+</body>
+</html>

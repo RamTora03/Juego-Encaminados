@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Encaminados Wiki</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'IBM Plex Mono', 'Courier New', monospace;
+			background:
+				radial-gradient(circle at top, rgba(88, 255, 154, 0.08), transparent 35%),
+				linear-gradient(180deg, #05070c 0%, #0b1018 45%, #070b11 100%);
+			color: #e8eadf;
+			line-height: 1.6;
+			position: relative;
+		}
+
+		body::before {
+			content: '';
+			position: fixed;
+			inset: 0;
+			pointer-events: none;
+			background: repeating-linear-gradient(
+				180deg,
+				rgba(255, 255, 255, 0.03) 0,
+				rgba(255, 255, 255, 0.03) 1px,
+				transparent 2px,
+				transparent 4px
+			);
+			opacity: 0.25;
+			mix-blend-mode: screen;
+		}
+
+		body::after {
+			content: '';
+			position: fixed;
+			inset: 0;
+			pointer-events: none;
+			background: linear-gradient(90deg, rgba(111, 183, 255, 0.04), transparent 20%, transparent 80%, rgba(88, 255, 154, 0.04));
+			opacity: 0.3;
+		}
+
+		header {
+			background: linear-gradient(135deg, #0f1722 0%, #111d2c 55%, #0b1018 100%);
+			border-bottom: 4px solid #58ff9a;
+			padding: 30px 20px;
+			text-align: center;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+		}
+
+		header h1 {
+			font-size: 2.5em;
+			color: #58ff9a;
+			font-family: 'Trebuchet MS', 'Arial Black', sans-serif;
+			letter-spacing: 0.06em;
+			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+			margin-bottom: 10px;
+		}
+
+		header p {
+			color: #d7dbc9;
+			font-size: 1.1em;
+		}
+
+		nav {
+			background: rgba(8, 12, 17, 0.92);
+			border-bottom: 2px solid #6fb7ff;
+			display: flex;
+			justify-content: center;
+			gap: 2px;
+			padding: 0;
+			flex-wrap: wrap;
+		}
+
+		nav a {
+			color: #d7dbc9;
+			text-decoration: none;
+			padding: 12px 20px;
+			border-right: 1px solid #243244;
+			transition: all 0.3s ease;
+			cursor: pointer;
+		}
+
+		nav a:last-child {
+			border-right: none;
+		}
+
+		nav a:hover {
+			background: #58ff9a;
+			color: #04110b;
+			font-weight: bold;
+			text-shadow: none;
+		}
+
+		main {
+			max-width: 1200px;
+			margin: 40px auto;
+			padding: 20px;
+		}
+
+		section {
+			background: linear-gradient(180deg, rgba(12, 18, 27, 0.96), rgba(9, 14, 20, 0.96));
+			border: 1px solid #243244;
+			border-left: 4px solid #6fb7ff;
+			padding: 30px;
+			margin-bottom: 30px;
+			border-radius: 2px;
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+		}
+
+		h2 {
+			color: #58ff9a;
+			font-size: 1.8em;
+			margin-bottom: 20px;
+			text-transform: uppercase;
+			border-bottom: 2px solid rgba(111, 183, 255, 0.65);
+			padding-bottom: 10px;
+			font-family: 'Trebuchet MS', 'Arial Black', sans-serif;
+		}
+
+		h3 {
+			color: #cfd8c3;
+			font-size: 1.3em;
+			margin-top: 20px;
+			margin-bottom: 15px;
+		}
+
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+			gap: 20px;
+			margin: 20px 0;
+		}
+
+		.card {
+			background: linear-gradient(180deg, #111923 0%, #0b1018 100%);
+			border: 1px solid #263445;
+			border-left: 4px solid #58ff9a;
+			padding: 20px;
+			border-radius: 2px;
+			transition: all 0.3s ease;
+			cursor: pointer;
+			text-decoration: none;
+			color: #e8eadf;
+			display: block;
+		}
+
+		.card:hover {
+			border-color: #6fb7ff;
+			background: #131d29;
+			box-shadow: 0 0 18px rgba(111, 183, 255, 0.18);
+			transform: translateY(-2px);
+		}
+
+		.card h4 {
+			color: #6fb7ff;
+			margin-bottom: 10px;
+			font-size: 1.2em;
+		}
+
+		.card p {
+			color: #d7dbc9;
+			font-size: 0.95em;
+		}
+
+		.stat {
+			display: inline-block;
+			background: rgba(88, 255, 154, 0.08);
+			border: 1px solid #58ff9a;
+			color: #58ff9a;
+			padding: 5px 12px;
+			border-radius: 3px;
+			margin: 5px 5px 5px 0;
+			font-size: 0.9em;
+			font-weight: bold;
+		}
+
+		.station-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+			gap: 15px;
+			margin: 20px 0;
+		}
+
+		.station-card {
+			background: linear-gradient(135deg, #111b28 0%, #0b1119 100%);
+			border-left: 4px solid #6fb7ff;
+			padding: 15px;
+			border-radius: 3px;
+			border: 1px solid #243244;
+		}
+
+		.station-card h4 {
+			color: #58ff9a;
+			margin-bottom: 8px;
+		}
+
+		.station-card p {
+			color: #d7dbc9;
+			font-size: 0.9em;
+			margin: 3px 0;
+		}
+
+		footer {
+			background: #080c12;
+			border-top: 2px solid #6fb7ff;
+			text-align: center;
+			padding: 20px;
+			color: #9ba3ad;
+			margin-top: 40px;
+		}
+
+		.tabs {
+			display: flex;
+			gap: 0;
+			border-bottom: 2px solid #334155;
+			margin-bottom: 20px;
+			flex-wrap: wrap;
+		}
+
+		.tab-btn {
+			background: #121a25;
+			border: 1px solid #243244;
+			border-bottom: none;
+			color: #d7dbc9;
+			padding: 12px 20px;
+			cursor: pointer;
+			transition: all 0.3s;
+		}
+
+		.tab-btn:hover {
+			background: #182233;
+			color: #6fb7ff;
+		}
+
+		.tab-btn.active {
+			background: #6fb7ff;
+			color: #04111d;
+			font-weight: bold;
+		}
+
+		.tab-content {
+			display: none;
+		}
+
+		.tab-content.active {
+			display: block;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin: 20px 0;
+		}
+
+		th {
+			background: #0f1a28;
+			color: #58ff9a;
+			padding: 12px;
+			text-align: left;
+			border: 1px solid #243244;
+			font-weight: bold;
+		}
+
+		td {
+			padding: 10px 12px;
+			border: 1px solid #243244;
+			background: #0c121a;
+		}
+
+		tr:hover td {
+			background: #111925;
+		}
+
+		.positive {
+			color: #58ff9a;
+		}
+
+		.negative {
+			color: #ff6b72;
+		}
+
+		.neutral {
+			color: #6fb7ff;
+		}
+
+		@media (max-width: 768px) {
+			header h1 {
+				font-size: 1.8em;
+			}
+
+			nav {
+				flex-direction: column;
+			}
+
+			nav a {
+				border-right: none;
+				border-bottom: 1px solid #333;
+				text-align: center;
+			}
+
+			.grid {
+				grid-template-columns: 1fr;
+			}
+
+			main {
+				margin: 20px auto;
+			}
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<h1>⚙ ENCAMINADOS WIKI</h1>
+		<p>Centro de control operativo — Documentación completa</p>
+	</header>
+
+	<nav>
+		<a href="index.html">INICIO</a>
+		<a href="overview.html">RESUMEN</a>
+		<a href="characters.html">PERSONAJES</a>
+		<a href="stations.html">ESTACIONES</a>
+		<a href="events.html">EVENTOS</a>
+		<a href="mechanics.html">MECÁNICAS</a>
+		<a href="lore.html">LORE</a>
+	</nav>
+
+	<main>
+		<section>
+			<h2>Bienvenido a la Wiki de Encaminados</h2>
+			<p>
+				Encaminados es una simulación de decisiones donde eres el operador del Metro. Navega por las estaciones,
+				resuelve casos críticos y equilibra el funcionamiento del sistema con la molestia pública.
+			</p>
+			<div class="grid" style="margin-top: 30px;">
+				<a href="overview.html" class="card">
+					<h4>📖 WIKI DE ENCAMINADOS</h4>
+					<p>Conoce el mundo y mecánicas principales del juego.</p>
+				</a>
+				<a href="characters.html" class="card">
+					<h4>👤 PERSONAJES</h4>
+					<p>Explora los NPCs y sus historias en el Metro.</p>
+				</a>
+				<a href="stations.html" class="card">
+					<h4>🚇 ESTACIONES</h4>
+					<p>Mapa completo con todas las líneas y estaciones.</p>
+				</a>
+				<a href="events.html" class="card">
+					<h4>⚠ EVENTOS</h4>
+					<p>Catálogo de casos con sus opciones y consecuencias.</p>
+				</a>
+				<a href="mechanics.html" class="card">
+					<h4>⚙ MECÁNICAS</h4>
+					<p>Sistemas, estadísticas y controladores.</p>
+				</a>
+			</div>
+		</section>
+
+		<section>
+			<h2>🎮 Estadísticas Clave</h2>
+			<div class="grid">
+				<div>
+					<h3>Funcionamiento del Metro</h3>
+					<p>Rango: 0-100</p>
+					<p>Afecta la satisfacción y capacidad operativa. Cae con estrés, sube con reparaciones.</p>
+				</div>
+				<div>
+					<h3>Molestia Pública</h3>
+					<p>Rango: 0-100</p>
+					<p>Aumenta con decisiones impopulares. Si alcanza 100, pierdes la partida.</p>
+				</div>
+				<div>
+					<h3>Estrés del Sistema</h3>
+					<p>Rango: 0-100</p>
+					<p>Surge de sobrecarga, retrasos y mantenimiento postergado.</p>
+				</div>
+				<div>
+					<h3>Salud de Unidades</h3>
+					<p>Rango: 0-100</p>
+					<p>Estado de trenes y equipos. Baja con sobrecarga.</p>
+				</div>
+			</div>
+		</section>
+
+		<section>
+			<h2>🎯 Cómo Jugar</h2>
+			<h3>Controles Básicos</h3>
+			<ul style="margin-left: 20px; margin-top: 15px;">
+				<li><strong>↑ ↓ ← →:</strong> Navegar entre estaciones</li>
+				<li><strong>E:</strong> Entrar a estación o revelar detalle del caso</li>
+				<li><strong>1 / 2:</strong> Elegir opción A o B en un caso</li>
+				<li><strong>Q / Escape:</strong> Salir de la estación</li>
+			</ul>
+
+			<h3 style="margin-top: 25px;">Objetivo</h3>
+			<p>
+				Administra el Metro durante una jornada de 5 minutos en tiempo real. Mantén el funcionamiento arriba de 35
+				y la molestia pública bajo control para ganar.
+			</p>
+
+			<h3 style="margin-top: 25px;">Dificultad</h3>
+			<p>
+				No hay opciones "correctas" — solo decisiones con costos diferentes. Cada elección afecta las estadísticas
+				de forma única.
+			</p>
+		</section>
+
+		<section>
+			<h2>📚 Contenido Rápido</h2>
+			<div class="station-grid">
+				<div class="station-card">
+					<h4>🚇 12 Estaciones</h4>
+					<p>Líneas 3, 9 y 12 del Metro. Cada una con sus propios eventos.</p>
+				</div>
+				<div class="station-card">
+					<h4>👥 6 Personajes Principales</h4>
+					<p>NPCs con casos específicos que interactúan con el jugador.</p>
+				</div>
+				<div class="station-card">
+					<h4>⚠️ 40+ Eventos Únicos</h4>
+					<p>Casos variados con múltiples opciones de resolución.</p>
+				</div>
+				<div class="station-card">
+					<h4>📊 Sistema Dinámico</h4>
+					<p>Las estadísticas se ajustan en tiempo real según tus decisiones.</p>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<footer>
+		<p>&copy; 2026 Encaminados. Documentación generada automáticamente.</p>
+		<p><small>Juego en HTML5 + Canvas | <a href="../index.html" style="color: #58ff9a;">Jugar</a></small></p>
+	</footer>
+</body>
+</html>
