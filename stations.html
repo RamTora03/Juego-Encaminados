@@ -113,6 +113,27 @@
 			border-radius: 2px;
 		}
 
+		.map-panel {
+			background: rgba(8, 12, 17, 0.72);
+			border: 1px solid #243244;
+			border-left: 4px solid #58ff9a;
+			padding: 16px;
+			margin: 18px 0 26px;
+			border-radius: 2px;
+		}
+
+		.map-panel img {
+			display: block;
+			width: 100%;
+			max-width: 920px;
+			height: auto;
+			margin: 12px auto 0;
+			border: 2px solid #6fb7ff;
+			border-radius: 3px;
+			background: #070b11;
+			box-shadow: 0 0 20px rgba(111, 183, 255, 0.18);
+		}
+
 		.station-card h3 {
 			color: #6fb7ff;
 			margin: 0 0 12px;
@@ -353,6 +374,11 @@
 		<section>
 			<h2>📍 VISTA RÁPIDA - MAPA DE ESTACIONES</h2>
 			<p>Grilla de todas las estaciones organizadas por línea.</p>
+
+			<div class="map-panel">
+				<strong style="color: #58ff9a;">Mapa general del sistema</strong>
+				<img src="../mapa.png" alt="Mapa del Metro de Encaminados" loading="lazy" />
+			</div>
 
 			<h3 style="margin-top: 30px;">Línea 3 - Verde</h3>
 			<div class="station-grid">
